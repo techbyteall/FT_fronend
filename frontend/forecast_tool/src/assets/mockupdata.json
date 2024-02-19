@@ -1,0 +1,26 @@
+[
+    {
+        "modelId": 1,
+        "modelName": "Forecast Rev10 - Nov23",
+        "createdBy": "Amir Dospayev",
+        "createdDate": "2023-10-15",
+        "modelComments": "asd asdfwef efwf",
+        "modelLocation": "D:\\INM\\2024\\January\\Rev"
+    },
+    {
+        "modelId": 2,
+        "modelName": "Forecast Rev10 - v1",
+        "createdBy": "Amir Dospayev",
+        "createdDate": "2023-11-10",
+        "modelComments": "asd asdfwef efwf",
+        "modelLocation": "D:\\INM\\2024\\January\\Rev"
+    },
+    {
+        "modelId": 3,
+        "modelName": "Forecast Rev11 - Oct23-v2",
+        "createdBy": "Nurdaulet Mukulbekov",
+        "createdDate": "2023-11-17",
+        "modelComments": "asdwef efwf11111",
+        "modelLocation": "D:\\INM\\2024\\January\\Rev"
+    }
+]

@@ -1,0 +1,46 @@
+html body {
+    background-color: #F3F4F8;
+    /* font-size: 16px; */
+}
+
+.navbar-custom {
+    background-color: #ffffff !important;
+}
+
+
+.navbar-item.active {
+    color: rgb(72, 72, 72) !important;
+    font-weight: normal !important;
+}
+.navbar-item {
+    color: rgb(72, 72, 72) !important;
+    font-weight: normal !important;
+    height: 35px;
+}
+
+
+.navbar-item-main.active {
+    color: rgb(0, 0, 0) !important;
+    font-weight: 500;
+}
+.navbar-item-main {
+    color: rgb(109, 109, 109) !important;
+}
+
+
+
+.subnavbar-custom {
+    background-color: #EEF0F9 !important;
+}
+
+.bg-lightgreen {
+    background-color: #ecffe9 !important;
+}
+
+.bg-lightgrey {
+    background-color: #f2f2f1 !important;
+}
+
+th {
+    font-weight: normal !important;
+}
