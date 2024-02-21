@@ -19,12 +19,13 @@ html body {
 }
 
 
+
 .navbar-item-main.active {
-    color: rgb(0, 0, 0) !important;
+    color: #0029FF !important;
     font-weight: 500;
 }
 .navbar-item-main {
-    color: rgb(109, 109, 109) !important;
+    color: rgb(109, 109, 109) !important; /*rgb(109, 109, 109)*/
 }
 
 
@@ -34,13 +35,27 @@ html body {
 }
 
 .bg-lightgreen {
-    background-color: #ecffe9 !important;
+    background-color:#ecffe9 !important;
+    
 }
 
 .bg-lightgrey {
-    background-color: #f2f2f1 !important;
+    background-color: #d9d9d96b !important;/* #f2f2f1 !important; */
+}
+
+.rounded-0{
+    border-color: #ffffff;
 }
 
 th {
     font-weight: normal !important;
 }
+
+.btn-sm {
+    border-radius: 23px !important;
+}
+
+.navbar-custom-inputs {
+    background-color: #EEF0F9 !important;
+}
+
