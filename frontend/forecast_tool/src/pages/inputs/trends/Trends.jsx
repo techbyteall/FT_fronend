@@ -6,6 +6,7 @@ import {
     Button,
     Table
 } from "react-bootstrap";
+import TrendsList from "./TrendsList";
 
 export const Trends = () => {
   return (
@@ -16,6 +17,11 @@ export const Trends = () => {
             </Col>
         </Row>
         <Row className="mt-3">
+            <Col>
+                <TrendsList />
+            </Col>
+        </Row>
+        {/* <Row className="mt-3">
             <Col>
                 <Table bordered hover size="sm">
                     <thead>
@@ -29,26 +35,26 @@ export const Trends = () => {
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <td>raim</td>
+                            <td>adl</td>
+                            <td>@adl</td>
                         </tr>
                         <tr>
                             <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
+                            <td>raim2</td>
+                            <td>adl</td>
+                            <td>@adl2</td>
                         </tr>
                         <tr>
                             <td>3</td>
-                            <td>Larry the Bird</td>
-                            <td>Larry the Bird</td>
-                            <td>@twitter</td>
+                            <td>raim</td>
+                            <td>adl3</td>
+                            <td>@adl3</td>
                         </tr>
                     </tbody>
                 </Table>
             </Col>
-        </Row>
+        </Row> */}
     </div>
   )
 }

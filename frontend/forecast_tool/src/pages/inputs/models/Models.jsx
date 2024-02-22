@@ -5,18 +5,15 @@ import {
     Button,
     Table
 } from "react-bootstrap";
-
 import { useState, useEffect } from 'react';
-import jsonData from '../assets/mockupdata.json';
 import axios from 'axios';
-
+import  ModelsList from "./ModelsList"
 // mockup data
-const data = () => JSON.parse(JSON.stringify(jsonData));
 
 
 export const Models = () => {
 
-    const [modelsData, setModelsData] = useState(data);
+    const [modelsData, setModelsData] = useState([]);
 
     useEffect(() => {
         // axios
@@ -38,7 +35,7 @@ export const Models = () => {
                     <Button variant="primary" className="btn-sm">Register Model</Button>{' '}
                 </Col>
             </Row>
-            <Row className="mt-3">
+            {/* <Row className="mt-3">
                 <Col>
                     <Table bordered hover size="sm">
                         <thead>
@@ -70,6 +67,13 @@ export const Models = () => {
                             }
                         </tbody>
                     </Table>
+                </Col>
+            </Row> */}
+            <Row className="mt-3">
+                <Col>
+                    <div>
+                        <ModelsList />
+                    </div>
                 </Col>
             </Row>
         </div>
