@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
+import EventSetCreate from './EventSetCreate';
+//import { useNavigate } from 'react-router-dom';
 
-
-const EventModal = ({ show, handleClose }) => {
+const EventModal = ({ show, handleClose,handleProceed  }) => {
   const [eventName, setEventName] = useState('');
   const [comment, setComment] = useState('');
   const [choose, setChoose] = useState('');
+  
+  //const [showEventSetCreate, setShowEventSetCreate] = useState(false); // Добавленное состояние
 
   const [eventSetList, setEventSetList] = useState([]);
+
+  // const navigate = useNavigate();
+  
   useEffect(() => {
-    // Загрузка списка событий при монтировании компонента
     fetchEventSetList();
   }, []);
 
@@ -17,8 +22,7 @@ const EventModal = ({ show, handleClose }) => {
     try {
       const response = await fetch('http://localhost:8000/api/events_set_list/');
       const data = await response.json();
-      setEventSetList(data.data); // Установка полученного списка в состояние
-      console.log(data)
+      setEventSetList(data.data); 
     } catch (error) {
       console.error('Error fetching event set list:', error);
     }
@@ -37,18 +41,26 @@ const EventModal = ({ show, handleClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     handleClose(); 
+    handleProceed();
+    // navigate('/inputs/create-event-set');
+    //setShowEventSetCreate(true);
   };
   const handleCancel = () => {
-    resetForm();
-    setShowModal(false);
-  }
-  const resetForm = () => {
     setEventName('');
     setComment('');
     setChoose('');
-  };
+    setShowModal(false);
+  }
+  // const handleEventSetCreateClose = () => {
+  //   setShowEventSetCreate(false); // Скрыть EventSetCreate
+  // };
+  
 
   return (
+    // <>
+    //   {showEventSetCreate ? ( // Показывать EventSetCreate, если showEventSetCreate равно true
+    //     <EventSetCreate onClose={handleEventSetCreateClose} />
+    //   ) : (
     <Modal size="lg" show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Register EventSet</Modal.Title>
@@ -89,19 +101,25 @@ const EventModal = ({ show, handleClose }) => {
                 rows={4} 
                 placeholder="Enter comment" 
                 value={comment} 
-                onChange={handleCommentChange} 
+                onChange={handleCommentChange}
+                // id={eventSetList.events_set_id} 
+                // name={eventSetList.events_set_name}
               />
             </Col>
           </Form.Group>
           <div className="mb-3"></div>
           <div className="d-flex justify-content-end">
             <Button variant="primary" className="btn-sm" type="submit" style={{ marginRight: '23px', width: '100px' }}>Proceed</Button>
-            <Button variant="secondary" className="btn-sm" type= {{ handleCancel }} style={{ width: '100px' }}>Cancel</Button>
+            <Button variant="secondary" className="btn-sm" type= {{ handleCancel }}  style={{ width: '100px' }}>Cancel</Button>
           </div>
         </Form>
       </Modal.Body>
     </Modal>
-  );
-};
+  )
+} 
+// </>
+//   );
+// };
+
 
 export default EventModal;
