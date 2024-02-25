@@ -17,7 +17,6 @@ export const EventsList = () => {
             if (!response.ok) {
               throw new Error('Failed to fetch data');
             }
-    
             const data = await response.json();
             setShowEventSet(data.data);
           } catch (error) {

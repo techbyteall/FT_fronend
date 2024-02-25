@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
-import EventSetCreate from './EventSetCreate';
-//import { useNavigate } from 'react-router-dom';
+
+
+
 
 const EventModal = ({ show, handleClose,handleProceed  }) => {
   const [eventName, setEventName] = useState('');
   const [comment, setComment] = useState('');
   const [choose, setChoose] = useState('');
-  
-  //const [showEventSetCreate, setShowEventSetCreate] = useState(false); // Добавленное состояние
 
   const [eventSetList, setEventSetList] = useState([]);
 
-  // const navigate = useNavigate();
-  
   useEffect(() => {
     fetchEventSetList();
   }, []);
@@ -38,29 +35,48 @@ const EventModal = ({ show, handleClose,handleProceed  }) => {
     setChoose(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleClose(); 
-    handleProceed();
-    // navigate('/inputs/create-event-set');
-    //setShowEventSetCreate(true);
+    try {
+      const response = await fetch('http://localhost:8000/api/save_event/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          eventName: eventName,
+          comment: comment,
+        }),
+      });
+      if (response.ok) {
+        handleClose();
+        handleProceed();
+        setEventName('');
+        setComment('');
+      } else {
+        const data = await response.json();
+        if (response.status === 400 && data.message === 'Name already exists') {
+          alert('Name already exists. Please enter a different name.');
+          setEventName('');
+          document.getElementById('eventName').focus();
+        } else {
+          // Обработка других ошибок
+        }
+      }
+    } catch (error) {
+      console.error('Error saving event:', error);
+    } 
+    
   };
+  
   const handleCancel = () => {
     setEventName('');
     setComment('');
     setChoose('');
-    setShowModal(false);
+    handleClose(false);
   }
-  // const handleEventSetCreateClose = () => {
-  //   setShowEventSetCreate(false); // Скрыть EventSetCreate
-  // };
   
-
   return (
-    // <>
-    //   {showEventSetCreate ? ( // Показывать EventSetCreate, если showEventSetCreate равно true
-    //     <EventSetCreate onClose={handleEventSetCreateClose} />
-    //   ) : (
     <Modal size="lg" show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Register EventSet</Modal.Title>
@@ -102,24 +118,32 @@ const EventModal = ({ show, handleClose,handleProceed  }) => {
                 placeholder="Enter comment" 
                 value={comment} 
                 onChange={handleCommentChange}
-                // id={eventSetList.events_set_id} 
-                // name={eventSetList.events_set_name}
               />
             </Col>
           </Form.Group>
           <div className="mb-3"></div>
           <div className="d-flex justify-content-end">
-            <Button variant="primary" className="btn-sm" type="submit" style={{ marginRight: '23px', width: '100px' }}>Proceed</Button>
-            <Button variant="secondary" className="btn-sm" type= {{ handleCancel }}  style={{ width: '100px' }}>Cancel</Button>
+            <Button 
+              variant="primary" 
+              className="btn-sm" 
+              onClick={handleSubmit} 
+              style={{ marginRight: '23px', width: '100px' }}
+              disabled={!eventName.trim()}
+            >
+              Proceed
+            </Button>
+            <Button 
+              variant="secondary" 
+              className="btn-sm" 
+              onClick= {handleCancel}  
+              style={{ width: '100px' }}
+            >
+              Cancel
+            </Button>
           </div>
         </Form>
       </Modal.Body>
     </Modal>
   )
 } 
-// </>
-//   );
-// };
-
-
 export default EventModal;
