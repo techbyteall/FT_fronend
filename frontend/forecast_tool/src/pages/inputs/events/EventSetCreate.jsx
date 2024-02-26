@@ -9,7 +9,7 @@ import {
     Button
 } from "react-bootstrap";
 import CheckBoxGroup  from '../../../components/CheckBoxGroup'
-// import axios from 'axios';
+import axios from 'axios';
 
 
 registerAllModules();
@@ -20,9 +20,10 @@ const EventSetCreate = ({ onClose }) => {
   ];
 
   const [data, setData] = useState(initialData);
+  
 
   const addEmptyRow = () => {
-    setData(prevData => [...prevData, Array(5).fill('')]);
+    setData(prevData => [...prevData, Array(6).fill('')]);
   };
 
   const removeEmptyRows = () => {
@@ -35,17 +36,63 @@ const EventSetCreate = ({ onClose }) => {
     onClose(); 
   };
 
-  const saveData = () => {
+  const saveData = async () => {
+    const jsonDataArray = [];
+
+    // Проходим по всем строкам данных и формируем массив объектов JSON
+    data.forEach(rowData => {
+        const jsonData = {
+            date_time: rowData[0],
+            object_type: rowData[1],
+            object_instance: rowData[2],
+            object_type_property: rowData[3],
+            value: rowData[4],
+            sub_data_source: rowData[5],
+        };
+        jsonDataArray.push(jsonData);
+        console.log('Data saved successfully:', jsonDataArray);
+    });
+
+    // Отправляем все данные одним запросом
+    axios.post('http://localhost:8000/api/save_events/', jsonDataArray)
+        .then(response => {
+            console.log('Data saved successfully:', response.data);
+        })
+        .catch(error => {
+            console.error('Error saving data:', error);
+        });
+};
+
+// //main
+//   const saveData = () => {
+//     const jsonDataArray = [];
     
-  };
+//     for (let i = 0; i < data.length; i++) {
+//         const jsonData = {
+//             date_time: data[i][1],
+//             object_type: data[i][2],
+//             object_instance: data[i][3],
+//             object_type_property: data[i][4],
+//             value: data[i][5],
+//             sub_data_source: data[i][6],
+//         };
+//         jsonDataArray.push(jsonData);
+
+//         console.log('Data saved successfully:', jsonDataArray[i]);
+
+//         axios.post('http://localhost:8000/api/save_events/',  jsonDataArray[i] )
+//          .then(response => {
+//            console.log('Data saved successfully:', response.data);
+           
+//          })
+//          .catch(error => {
+//            console.error('Error saving data:', error);
+           
+//          });
+//     }
+// };
 
 
-  const handleCloseModal = (saveData) => {
-    setShowModal(false);
-    if (!saveData) {
-        setShowEventsList(true); // Показываем EventsList, если модальное окно закрывается без сохранения
-    }
-  };  
 
   const settings={
     data,
@@ -54,12 +101,12 @@ const EventSetCreate = ({ onClose }) => {
     height: 'auto',
     width: '950',
     columns: [
-      { data: 1, type: "date", allowInvalid: false },
-      { data: 2, type: "text" },
-      { data: 3, type: "text"},
-      { data: 4, type: "text" },
-      { data: 5, type: "numeric"},
-      { data: 6, type: "text" }
+      { data: 0, type: "date", allowInvalid: false },
+      { data: 1, type: "text" },
+      { data: 2, type: "text"},
+      { data: 3, type: "text" },
+      { data: 4, type: "numeric"},
+      { data: 5, type: "text" }
     ],
     colWidths: [150, 150, 150, 150, 150, 150],
     licenseKey: 'non-commercial-and-evaluation',
@@ -88,18 +135,6 @@ const EventSetCreate = ({ onClose }) => {
       <Row>
         <Col className="mt-3">
           <CheckBoxGroup />
-            {/* <Row>
-                <Col>
-                    <input type="checkbox" />
-                    <label>Name1</label>
-                </Col> 
-            </Row>
-            <Row>
-                <Col>
-                    <input type="checkbox" />
-                    <label>Name2</label>
-                </Col>
-            </Row> */}
         </Col>
         <Col className="mt-3">
             <HotTable settings={settings}/>

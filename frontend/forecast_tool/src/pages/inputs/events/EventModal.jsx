@@ -4,10 +4,12 @@ import { Modal, Button, Form, Col } from 'react-bootstrap';
 
 
 
-const EventModal = ({ show, handleClose,handleProceed  }) => {
+const EventModal = ({ show, handleClose,handleProceed, handleEventSetId   }) => {
   const [eventName, setEventName] = useState('');
   const [comment, setComment] = useState('');
   const [choose, setChoose] = useState('');
+
+
 
   const [eventSetList, setEventSetList] = useState([]);
 
