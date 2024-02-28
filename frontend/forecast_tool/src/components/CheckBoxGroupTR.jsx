@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 
-function CheckBoxGroup() {
+function CheckBoxGroupTR() {
   const [checkedIndices, setCheckedIndices] = useState([0]); // Начально нет активных чекбоксов
 
   const handleCheckboxChange = (index) => {
@@ -20,7 +20,7 @@ function CheckBoxGroup() {
   };
 
   return (
-    <div style={{  width: "300px", border: "1px solid #ccc", padding: "10px", backgroundColor: "white"  }}>
+    <div style={{ width: "300px", border: "1px solid #ccc", padding: "10px", backgroundColor: "white"  }}>
       <Row>
         <Col>
           <input
@@ -169,4 +169,4 @@ function CheckBoxGroup() {
   );
 }
 
-export default CheckBoxGroup;
+export default CheckBoxGroupTR;

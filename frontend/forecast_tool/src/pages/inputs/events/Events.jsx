@@ -13,31 +13,26 @@ export const Events = () => {
     const handleOpenModal = () => {
         setShowModal(true);
     };
-
     const handleCloseModal = (shouldShowEventsList) => {
         setShowModal(false);
         if (shouldShowEventsList) {
             setShowEventsList(true);
         }
     };
-    
     const handleProceed = () => {
         setShowEventsList(false);
         setShowModal(false);
         setShowButton(false);
     };
-
     const handleShowEventsList = () => {
         setShowEventsList(true);
         setShowButton(true);
     };
-
     const handleSetEventSetId = (eventId) => {
         setEventsSetId(eventId);
     };
-
     return (
-        <Container>
+        <div>
             <Row className="mt-3">
                 <Col>
                     {showButton && ( 
@@ -46,12 +41,11 @@ export const Events = () => {
                     <EventModal show={showModal} handleClose={handleCloseModal} handleProceed={handleProceed} setEventSetId={handleSetEventSetId}/> 
                 </Col>                    
             </Row>
-            
             <Row className="mt-3">
                 <Col>
                     {showEventsList ? <EventsList /> : <EventSetCreate onClose={handleShowEventsList} eventsSetId={eventsSetId} />}
                 </Col>
             </Row>
-        </Container>
+        </div>
     );
 }
