@@ -13,8 +13,8 @@ export const Header = () => {
                 <Nav activeKey={location.pathname} className="me-auto">
                     <Nav.Link href="/" className="navbar-item-main">Home</Nav.Link>
                     <Nav.Link href="/inputs" className="navbar-item-main">Inputs</Nav.Link>
-                    <Nav.Link href="#" className="navbar-item-main">Scenario</Nav.Link>
-                    <Nav.Link href="#" className="navbar-item-main">Servers</Nav.Link>
+                    <Nav.Link href="/scenario" className="navbar-item-main">Scenario</Nav.Link>
+                    <Nav.Link href="/servers" className="navbar-item-main">Servers</Nav.Link>
                 </Nav>
                 <Nav>
                     <Nav.Link href="#">Logout</Nav.Link>

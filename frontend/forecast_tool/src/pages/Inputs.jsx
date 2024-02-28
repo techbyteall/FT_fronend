@@ -1,12 +1,14 @@
 
-import { Navbar, Nav, Container, Tabs, Tab } from "react-bootstrap";
+import { Navbar, Nav, Container, Tabs, Tab  } from "react-bootstrap";
 import { Models } from "./inputs/models/Models"
 import { Events } from "./inputs/events/Events"
 import { Trends } from "./inputs/trends/Trends"
 
+import React from "react";
 
-export const Inputs = () => {
+export const Inputs = () => { 
     return (
+        
         <Container fluid>
             <Tab.Container id="left-tabs-example"  defaultActiveKey="models-tab">
                 <Nav variant="underline"> 
@@ -27,6 +29,6 @@ export const Inputs = () => {
                     <Tab.Pane eventKey="trends-tab"><Trends /></Tab.Pane>
                 </Tab.Content>
             </Tab.Container>
-        </Container>
+            </Container>  
     )
 }

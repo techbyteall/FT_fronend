@@ -28,21 +28,7 @@ const ModelsList = () => {
 
     fetchData();
   }, []);
-//   useEffect(() => {
-//     axios
-//         .get('http://localhost:8000/api/models_set/')
-//         .then(res=> {
-//             console.log(res);
-//             setConsolidatedData(res.data);
-//         })
-//         .catch(err=> {
-//             console.log(err);
-//             setConsolidatedData([]);
-//         })
-// }, []);
 
-
-  // Преобразуйте consolidatedData в формат, который ожидается в initialData
   const initialData = Array.isArray(modelsData) ? modelsData.map(item => [ //= setConsolidatedData.map(item => [
     item.models_name,
     item.created_date,
@@ -55,14 +41,14 @@ const ModelsList = () => {
     rowHeaders: true,
     colHeaders: ['Name', 'created date', 'models location', 'description'],
     height: 'auto',
-    width: '1250',
+    width: 'auto',
     columns: [
       { data: 0, type: "text", readOnly: true },
       { data: 1, type: "date", allowInvalid: false },
       { data: 2, type: "text", readOnly: true },
       { data: 3, type: "text", readOnly: true },
     ],
-    colWidths: [150, 150, 150, 150],
+    colWidths: [150, 250, 350, 150],
     licenseKey: 'non-commercial-and-evaluation',
     filters: true,
     dropdownMenu: true,
