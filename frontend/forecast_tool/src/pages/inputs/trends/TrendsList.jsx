@@ -40,15 +40,32 @@ const TrendsList = () => {
     data: initialData,
     rowHeaders: true,
     colHeaders: ['Name', 'created date',  'description'],
-    height: 'auto',
-    width: '1250',
+    // height: 'auto',
+    autoColumnSize: true,
+    width: 'auto',
     columns: [
       //{ data: 0, type: "text", readOnly: true },
-      { data: 0, type: "text", readOnly: true },
-      { data: 1, type: "date", allowInvalid: false, readOnly: true   },
-      { data: 2, type: "text", readOnly: true },
+      { 
+        data: 0, 
+        type: "text",
+        readOnly: true,
+        width: () => document.documentElement.clientWidth * 0.3 // Вычисление ширины колонки как 15% ширины экрана
+      },
+      { 
+        data: 1, 
+        type: "date",
+        allowInvalid: false,
+        readOnly: true,
+        width: () => document.documentElement.clientWidth * 0.3 // Вычисление ширины колонки как 15% ширины экрана
+      },
+      { 
+        data: 2, 
+        type: "text",
+        readOnly: true,
+        width: () => document.documentElement.clientWidth * 0.3 // Вычисление ширины колонки как 15% ширины экрана
+    },
     ],
-    colWidths: [150, 150, 150, 150],
+    colWidths: 'auto',
     licenseKey: 'non-commercial-and-evaluation',
     filters: true,
     dropdownMenu: true,

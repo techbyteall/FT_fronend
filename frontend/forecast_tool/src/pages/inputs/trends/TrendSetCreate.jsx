@@ -4,8 +4,8 @@ import { registerAllModules } from 'handsontable/registry';
 import 'handsontable/dist/handsontable.full.min.css';
 import { Container, Row, Col, Button } from "react-bootstrap";
 import CheckBoxGroupTR  from '../../../components/CheckBoxGroupTR';
-import axios from 'axios';
-
+import axios, { all } from 'axios';
+import '../../../index.css'
 registerAllModules();
 
 const TrendSetCreate = ({ onClose, trendsSetId }) => {
@@ -24,7 +24,7 @@ const TrendSetCreate = ({ onClose, trendsSetId }) => {
         });
     };
     const handleClose = () => {
-        onClose(); 
+        onClose();
     };
     const saveData = async () => {
         const jsonDataArray = [];
@@ -32,11 +32,11 @@ const TrendSetCreate = ({ onClose, trendsSetId }) => {
             const jsonData = {
                 object_instance: rowData[0],
                 object_type: rowData[1],
-                date_time: rowData[2],  
+                date_time: rowData[2],
                 object_type_property: rowData[3],
                 value: rowData[4],
                 sub_data_source: rowData[5],
-                data_source_id: trendsSetId 
+                data_source_id: trendsSetId
             };
             jsonDataArray.push(jsonData);
             console.log('Data saved successfully:', jsonDataArray);
@@ -53,17 +53,43 @@ const TrendSetCreate = ({ onClose, trendsSetId }) => {
         data,
         rowHeaders: true,
         colHeaders: ['Well', 'Well Type', 'GOR init date', 'GOR init value', 'GOR Slop','Commets'],
-        height: 'auto',
-        width: '1100',
+        // height: 'auto',
+        autoColumnSize: true,
+        width: 'auto',
         columns: [
-            { data: 0, type: "text" },
-            { data: 1, type: "text"},
-            { data: 2, type: "date", allowInvalid: false },
-            { data: 3, type: "text" },
-            { data: 4, type: "numeric"},
-            { data: 5, type: "text" }
-        ],
-        colWidths: [150, 150, 150, 150, 150, 300],
+            { 
+              data: 0, 
+              type: "text",
+              width: () => document.documentElement.clientWidth * 0.13 // Вычисление ширины колонки как 15% ширины экрана
+            },
+            { 
+              data: 1, 
+              type: "text",
+              width: () => document.documentElement.clientWidth * 0.13 // Вычисление ширины колонки как 15% ширины экрана
+            },
+            { 
+              data: 2, 
+              type: "date",
+              allowInvalid: false,
+              width: () => document.documentElement.clientWidth * 0.1 // Вычисление ширины колонки как 15% ширины экрана
+            },
+            { 
+              data: 3, 
+              type: "text",
+              width: () => document.documentElement.clientWidth * 0.1 // Вычисление ширины колонки как 15% ширины экрана
+            },
+            { 
+              data: 4, 
+              type: "numeric",
+              width: () => document.documentElement.clientWidth * 0.1 // Вычисление ширины колонки как 15% ширины экрана
+            },
+            { 
+              data: 5, 
+              type: "text",
+              width: () => document.documentElement.clientWidth * 0.19 // Вычисление ширины колонки как 25% ширины экрана
+            }
+          ],
+        colWidths: 'auto',
         licenseKey: 'non-commercial-and-evaluation',
         filters: true,
         dropdownMenu: true,
@@ -74,35 +100,35 @@ const TrendSetCreate = ({ onClose, trendsSetId }) => {
             <Row>
                 <Col>
                     <div style={{ textAlign: 'right', fontSize: '28px' }}>Create Trend Set</div>
-                </Col>      
+                </Col>
                 <Col>
-                    
-                    <div className="d-flex justify-content-end">  
+
+                    <div className="d-flex justify-content-end">
                         <Button variant="secondary" className="btn-sm" onClick={handleClose} style={{ marginRight: '15px'}}>Close</Button>
                         <Button variant="secondary" className="btn-sm" onClick={addEmptyRow} style={{ marginRight: '15px'}}>Add Empty Row</Button>
                         <Button variant="secondary" className="btn-sm" onClick={removeEmptyRows} style={{ marginRight: '15px'}}>Remove Empty Rows</Button>
-                        <Button variant="primary" className="btn-sm" onClick={saveData} style={{ marginRight: '15px'}}>Save</Button>  
+                        <Button variant="primary" className="btn-sm" onClick={saveData} style={{ marginRight: '15px'}}>Save</Button>
                     </div>
                 </Col>
             </Row>
             <div>
                 <Row>
                     <Col>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                            <Button variant="primary" className="btn-sm" style={{ width: '300px' }}>GOR</Button>
-                            <Button variant="primary" className="btn-sm" style={{ width: '300px' }}>SBHP</Button>
-                            <Button variant="primary" className="btn-sm" style={{ width: '300px' }}>Watercut</Button>
+                        <div className="mt-3" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <Button variant="primary" className="btn-sm" style={{ width: '200px' }}>GOR</Button>
+                            <Button variant="primary" className="btn-sm" style={{ width: '200px' }}>SBHP</Button>
+                            <Button variant="primary" className="btn-sm" style={{ width: '200px' }}>Watercut</Button>
                         </div>
                         <div className="mt-3">
                         <CheckBoxGroupTR />
                         </div>
                     </Col>
                     <Col className="mt-3">
-                        <HotTable settings={settings}/>
+                        <HotTable settings={settings} />
                     </Col>
                 </Row>
             </div>
-        </div>
+         </div>
     );
 };
 

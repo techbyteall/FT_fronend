@@ -38,16 +38,38 @@ export const EventsList = () => {
     const settings = {
         data: initialData,
         rowHeaders: true,
-        height: 'auto',
+        autoColumnSize: true,
+        // height: 'auto',
         width: 'auto',
         colHeaders: [ "EventSet ID", "EventsSet name", "Created Date", "Coments",],
         columns: [
-            { data: 0, type: "text" , readOnly: true },
-            { data: 1, type: "text", readOnly: true  },
-            { data: 2, type: "date", allowInvalid: false, readOnly: true  },
-            { data: 3, type: "text", readOnly: true  },
+          { 
+            data: 0, 
+            type: "text",
+            readOnly: true,
+            width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+          },
+          { 
+            data: 1, 
+            type: "text",
+            readOnly: true,
+            width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+          },
+          { 
+            data: 2, 
+            type: "date",
+            allowInvalid: false,
+            readOnly: true,
+            width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+        },
+        { 
+            data: 3, 
+            type: "text",
+            readOnly: true,
+            width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+        },
         ],
-        colWidths: [150, 150, 150, 150],
+        colWidths: 'auto',
         licenseKey: "non-commercial-and-evaluation",
         dropdownMenu: true,
         filters: true,

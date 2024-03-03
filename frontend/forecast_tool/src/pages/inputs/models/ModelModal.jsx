@@ -40,7 +40,8 @@ const ModelModal = ({ show, handleClose }) => {
                 handleClose();
                 setModelName('');
                 setComment('');
-                setLocation('')
+                setLocation('');
+                
             } else {
                 const data = await response.json();
                 if (response.status === 400 && data.message === 'Name already exists') {

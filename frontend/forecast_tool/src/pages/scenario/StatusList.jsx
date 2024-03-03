@@ -7,7 +7,7 @@ import axios from 'axios';
 
 registerAllModules();
 
-const StatusList = () => {
+const StatusList = ({isDataUpdated, setIsDataUpdated}) => {
   const [statusScData, setStatusScData] = useState([]);
 
   useEffect(() => {
@@ -21,13 +21,14 @@ const StatusList = () => {
 
         const data = await response.json();
         setStatusScData(data.data);
+        setIsDataUpdated(false);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [isDataUpdated]);
 
   const initialData = Array.isArray(statusScData) ? statusScData.map(item => [ 
     item.scenario_name,

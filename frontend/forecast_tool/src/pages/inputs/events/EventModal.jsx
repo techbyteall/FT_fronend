@@ -101,7 +101,7 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId }) => {
                                 value={choose} 
                                 onChange={handleChooseChange}
                             >
-                                <option value="">Blanc</option>
+                                <option value="">Blank</option>
                                 {Array.isArray(eventSetList) && eventSetList.map(eventSet => (
                                     <option key={eventSet.events_set_id} value={eventSet.events_set_name}>{eventSet.events_set_name}</option>
                                 ))}

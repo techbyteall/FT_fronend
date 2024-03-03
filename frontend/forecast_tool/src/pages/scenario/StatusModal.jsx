@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
 
 
-const StatusModal = ({ show, handleClose }) => {
+const StatusModal = ({ show, handleClose, updateScenarioList  }) => {
     const [statusScName, setStatusScName] = useState('');
     const [comment, setComment] = useState('');
     const [model, setModel] = useState('');
@@ -87,6 +87,7 @@ const StatusModal = ({ show, handleClose }) => {
                 setEvent('');
                 setTrend('');
                 setComment('');
+                updateScenarioList();
             } else {
                 const data = await response.json();
                 if (response.status === 400 && data.message === 'Name already exists') {
