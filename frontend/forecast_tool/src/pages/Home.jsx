@@ -8,7 +8,7 @@ export const Home = () => {
                 <div className="card rounded-0">
                     <div className="card-body bg-lightgreen">
                         <p><b>KPOPTS01</b></p>
-                        <p>Raiymbek</p>
+                        <p>Amir Dospaev</p>
                         <p>Running...</p>
                         <span>Forecast rev10 2024</span>
                     </div>
@@ -19,7 +19,7 @@ export const Home = () => {
                 <div className="card rounded-0">
                     <div className="card-body bg-lightgreen">
                         <p><b>KPOPTS01</b></p>
-                        <p> Raiymbek</p>
+                        <p> Amir Dospaev</p>
                         <p>Running...</p>
                         <span>Forecast rev10 2024</span>
                     </div>
@@ -30,8 +30,8 @@ export const Home = () => {
                 <div className="card rounded-0">
                     <div className="card-body bg-lightgrey">
                         <p><b>KPOPTS01</b></p>
-                        <p>Raiymbek</p>
-                        <p>Running...</p>
+                        <p>Amir Dospaev</p>
+                        <p>Complete</p>
                         <span>Forecast rev10 2024</span>
                     </div>
                 </div>

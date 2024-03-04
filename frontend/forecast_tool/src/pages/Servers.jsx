@@ -40,7 +40,7 @@ export const Servers = () => {
         const settings = {
             data: initialData,
             rowHeaders: true,
-            colHeaders: ['Server Name', 'URL', 'Status', 'Description'],
+            colHeaders: ['Server Name', 'URL', 'Status', 'Comments'],
             // height: 'auto',
             autoColumnSize: true,
             width: 'auto',

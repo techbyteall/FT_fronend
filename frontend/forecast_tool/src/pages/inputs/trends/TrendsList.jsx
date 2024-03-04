@@ -39,7 +39,7 @@ const TrendsList = () => {
   const settings = {
     data: initialData,
     rowHeaders: true,
-    colHeaders: ['Name', 'created date',  'description'],
+    colHeaders: ['Trends Set Name', 'Created date',  'Comments'],
     // height: 'auto',
     autoColumnSize: true,
     width: 'auto',

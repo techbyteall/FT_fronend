@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect  } from 'react';
 import { HotTable } from '@handsontable/react';
 import { registerAllModules } from 'handsontable/registry';
 import 'handsontable/dist/handsontable.full.min.css';
@@ -10,8 +10,7 @@ import '../../../index.css'
 
 registerAllModules();
 
-const EventSetCreate = ({ onClose, eventsSetId }) => {
-    
+const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
     const initialData = [
         ['', '', '', '', '','']
     ];
@@ -21,10 +20,27 @@ const EventSetCreate = ({ onClose, eventsSetId }) => {
     const [notificationMessage, setNotificationMessage] = useState('');
     const [notificationError, setNotificationError] = useState(false);
 
-    // const showNotification = (message) => {
-    //     setNotificationMessage(message);
-    //     setShowSaveNotification(true);
-    // };
+    useEffect(() => {
+        // Fetch data for selectEventsSetId if it's not null
+        if (selectEventsSetId) {
+            axios.get(`http://localhost:8000/api/main_class/${selectEventsSetId}`)
+                .then(response => {
+                    const eventData = response.data.map(item => [
+                        item.date_time,
+                        item.object_type,
+                        item.object_instance,
+                        item.object_type_property,
+                        item.value,
+                        item.sub_data_source
+                    ]);
+                    setData(eventData);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+    }, [selectEventsSetId]);
+
     const addEmptyRow = () => {
         setData(prevData => [...prevData, Array(6).fill('')]);
     };
@@ -53,7 +69,6 @@ const EventSetCreate = ({ onClose, eventsSetId }) => {
                 data_source_id: eventsSetId 
             };
             jsonDataArray.push(jsonData);
-            // console.log('Data saved successfully:', jsonDataArray);
         });
 
         axios.post('http://localhost:8000/api/save_events/', jsonDataArray)
@@ -119,7 +134,7 @@ const EventSetCreate = ({ onClose, eventsSetId }) => {
             { 
                 data: 5, 
                 type: "text",
-                width: () => document.documentElement.clientWidth * 0.19 // Вычисление ширины колонки как 25% ширины экрана
+                width: () => document.documentElement.clientWidth * 0.17 // Вычисление ширины колонки как 25% ширины экрана
             }
         ],
         colWidths: 'auto',

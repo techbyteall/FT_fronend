@@ -21,18 +21,9 @@ const ModelsList = ({isDataUpdated, setIsDataUpdated}) => {
   };
 
   useEffect(() => {
-    fetchData(); // Вызываем fetchData при монтировании компонента
+    fetchData(); 
   }, [isDataUpdated]);
-  // useEffect(() => {
-  //   fetchData(); // Вызываем fetchData при монтировании компонента
-
-  //   // Затем создаем интервал, чтобы обновлять данные каждые, например, 5 секунд
-  //   const intervalId = setInterval(fetchData, 5000);
-
-  //   // Возвращаем функцию для очистки интервала при размонтировании компонента
-  //   return () => clearInterval(intervalId);
-  // }, []); // Пустой массив означает, что useEffect вызывается только при монтировании и размонтировании
-
+  
   const initialData = Array.isArray(modelsData)
     ? modelsData.map(item => [
         item.models_name,
@@ -45,7 +36,7 @@ const ModelsList = ({isDataUpdated, setIsDataUpdated}) => {
   const settings = {
     data: initialData,
     rowHeaders: true,
-    colHeaders: ['Name', 'created date', 'models location', 'description'],
+    colHeaders: ['Name', 'Created Date', 'Models Location', 'Comment'],
     // height: 'auto',
     autoColumnSize: true,
     width: 'auto',
@@ -54,26 +45,26 @@ const ModelsList = ({isDataUpdated, setIsDataUpdated}) => {
         data: 0, 
         type: "text",
         readOnly: true,
-        width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+        width: () => document.documentElement.clientWidth * 0.2 
       },
       { 
         data: 1, 
         type: "date",
         allowInvalid: false,
         readOnly: true,
-        width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+        width: () => document.documentElement.clientWidth * 0.2 
       },
       { 
         data: 2, 
         type: "text",
         readOnly: true,
-        width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+        width: () => document.documentElement.clientWidth * 0.2 
     },
     { 
         data: 3, 
         type: "text",
         readOnly: true,
-        width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+        width: () => document.documentElement.clientWidth * 0.2 
     },
     ],
     colWidths: 'auto',

@@ -42,7 +42,14 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
         setChooseServer(e.target.value);
     };
 
-
+    const updateScenario = async (scenarioName, serverName) => {
+        try {
+            await axios.put(`http://localhost:8000/api/scenarios/${scenarioName}/`, { server: serverName });
+        } catch (error) {
+            console.error('Error updating scenario:', error);
+        }
+    };
+    
     const fetchCSVData = async () => {
         try {
             const response = await axios.get('http://localhost:8000/api/export_and_run/', {
@@ -51,8 +58,8 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
             saveAs(blob, 'Events1.csv');
 
             if (response.status === 200) {
-                // Если экспорт CSV успешен, вызываем метод для запуска сценария
                 await handleRunScenario();
+                
             } else {
                 console.error('Export CSV failed:', response.data);
             }
@@ -75,7 +82,10 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
             handleClose();
             setChooseScenario('');
             setChooseServer('');
+            await updateScenario(chooseScenario, chooseServer);
+            setIsDataUpdated(true);
             fetchCSVData();
+            
             // runScenario();
         } catch (error) {
             console.error('Error exporting CSV:', error);

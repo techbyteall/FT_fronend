@@ -41,32 +41,32 @@ export const EventsList = () => {
         autoColumnSize: true,
         // height: 'auto',
         width: 'auto',
-        colHeaders: [ "EventSet ID", "EventsSet name", "Created Date", "Coments",],
+        colHeaders: [ "Events Set ID", "Events Set name", "Created Date", "Comments",],
         columns: [
           { 
             data: 0, 
             type: "text",
             readOnly: true,
-            width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+            width: () => document.documentElement.clientWidth * 0.2 
           },
           { 
             data: 1, 
             type: "text",
             readOnly: true,
-            width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+            width: () => document.documentElement.clientWidth * 0.2 
           },
           { 
             data: 2, 
             type: "date",
             allowInvalid: false,
             readOnly: true,
-            width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+            width: () => document.documentElement.clientWidth * 0.2 
         },
         { 
             data: 3, 
             type: "text",
             readOnly: true,
-            width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+            width: () => document.documentElement.clientWidth * 0.2 
         },
         ],
         colWidths: 'auto',

@@ -9,6 +9,7 @@ export const Events = () => {
     const [showEventsList, setShowEventsList] = useState(true);
     const [showButton, setShowButton] = useState(true);
     const [eventsSetId, setEventsSetId] = useState(null);
+    const [selectEventsSetId, setSelectEventsSetId] = useState(null);
 
     const handleOpenModal = () => {
         setShowModal(true);
@@ -31,6 +32,9 @@ export const Events = () => {
     const handleSetEventSetId = (eventId) => {
         setEventsSetId(eventId);
     };
+    const handleSetSelectEventSetId = (selectEventId) => {
+        setSelectEventsSetId(selectEventId);
+    };
     return (
         <div>
             <Row className="mt-3">
@@ -38,12 +42,21 @@ export const Events = () => {
                     {showButton && ( 
                         <Button variant="primary" className="btn-sm" onClick={handleOpenModal}>Register EventSet</Button>
                     )}
-                    <EventModal show={showModal} handleClose={handleCloseModal} handleProceed={handleProceed} setEventSetId={handleSetEventSetId}/> 
+                    <EventModal 
+                        show={showModal} 
+                        handleClose={handleCloseModal} 
+                        handleProceed={handleProceed} 
+                        setEventSetId={handleSetEventSetId}
+                        setSelectEventsSetId={handleSetSelectEventSetId}
+                    /> 
                 </Col>                    
             </Row>
             <Row className="mt-3">
                 <Col>
-                    {showEventsList ? <EventsList /> : <EventSetCreate onClose={handleShowEventsList} eventsSetId={eventsSetId} />}
+                    {showEventsList ? <EventsList /> : <EventSetCreate 
+                                        onClose={handleShowEventsList} 
+                                        eventsSetId={eventsSetId} 
+                                        selectEventsSetId={selectEventsSetId}/>}
                 </Col>
             </Row>
         </div>
