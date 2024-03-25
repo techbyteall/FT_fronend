@@ -104,37 +104,38 @@ const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
         // height: 'auto',
         autoColumnSize: true,
         width: 'auto',
+        stretchH: 'all',
         columns: [
             { 
                 data: 0, 
                 type: "date",
                 allowInvalid: false,
-                width: () => document.documentElement.clientWidth * 0.1 // Вычисление ширины колонки как 15% ширины экрана
+                // width: () => document.documentElement.clientWidth * 0.1 // Вычисление ширины колонки как 15% ширины экрана
               },
             { 
                 data: 1, 
                 type: "text",
-                width: () => document.documentElement.clientWidth * 0.13 // Вычисление ширины колонки как 15% ширины экрана
+                // width: () => document.documentElement.clientWidth * 0.13 // Вычисление ширины колонки как 15% ширины экрана
             },
             { 
                 data: 2, 
                 type: "text",
-                width: () => document.documentElement.clientWidth * 0.13 // Вычисление ширины колонки как 15% ширины экрана
+                // width: () => document.documentElement.clientWidth * 0.13 // Вычисление ширины колонки как 15% ширины экрана
             },
             { 
                 data: 3, 
                 type: "text",
-                width: () => document.documentElement.clientWidth * 0.1 // Вычисление ширины колонки как 15% ширины экрана
+                // width: () => document.documentElement.clientWidth * 0.1 // Вычисление ширины колонки как 15% ширины экрана
             },
             { 
                 data: 4, 
                 type: "numeric",
-                width: () => document.documentElement.clientWidth * 0.1 // Вычисление ширины колонки как 15% ширины экрана
+                // width: () => document.documentElement.clientWidth * 0.1 // Вычисление ширины колонки как 15% ширины экрана
             },
             { 
                 data: 5, 
                 type: "text",
-                width: () => document.documentElement.clientWidth * 0.17 // Вычисление ширины колонки как 25% ширины экрана
+                // width: () => document.documentElement.clientWidth * 0.17 // Вычисление ширины колонки как 25% ширины экрана
             }
         ],
         colWidths: 'auto',
@@ -165,16 +166,16 @@ const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
                 </div>
                 )}
             </Row>
-            <div>
-                <Row>
-                    <Col className="mt-3">
-                        <CheckBoxGroup />
-                    </Col>
-                    <Col className="mt-3">
-                        <HotTable settings={settings}/>
-                    </Col>
-                </Row>
-            </div>
+            
+            <Row>
+                <Col className="mt-3" lg={2}>
+                    <CheckBoxGroup />
+                </Col>
+                <Col className="mt-3" lg={10}>
+                    <HotTable settings={settings}/>
+                </Col>
+            </Row>
+        
         </div>
     );
 };

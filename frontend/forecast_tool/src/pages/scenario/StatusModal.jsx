@@ -131,14 +131,15 @@ const StatusModal = ({ show, handleClose, updateScenarioList  }) => {
                         </Col>
                     </Form.Group>
                     <Form.Group controlId="model" className="row mt-3">
-                        <Form.Label column sm={2}>model</Form.Label>
+                        <Form.Label column sm={2}>Model</Form.Label>
                         <Col sm={10}>
                             <Form.Control 
                                 as="select"
                                 value={model} 
+                                placeholder="Choose Model" 
                                 onChange={handleModelChange}
                             >
-                                <option value="">___</option>
+                                <option value=""></option>
                                 {Array.isArray(modelSetList) && modelSetList.map(modelSet => (
                                     <option key={modelSet.models_id} value={modelSet.models_name}>{modelSet.models_name}</option>
                                 ))}
@@ -146,14 +147,15 @@ const StatusModal = ({ show, handleClose, updateScenarioList  }) => {
                         </Col>
                     </Form.Group>
                     <Form.Group controlId="event" className="row mt-3">
-                        <Form.Label column sm={2}>event</Form.Label>
+                        <Form.Label column sm={2}>EventSet</Form.Label>
                         <Col sm={10}>
                             <Form.Control 
                                 as="select"
                                 value={event} 
+                                placeholder="Choose EventSet"
                                 onChange={handleEventChange}
                             >
-                                <option value="">___</option>
+                                <option value=""></option>
                                 {Array.isArray(eventSetList) && eventSetList.map(eventSet => (
                                     <option key={eventSet.events_set_id} value={eventSet.events_set__name}>{eventSet.events_set_name}</option>
                                 ))}
@@ -161,14 +163,15 @@ const StatusModal = ({ show, handleClose, updateScenarioList  }) => {
                         </Col>
                     </Form.Group>
                     <Form.Group controlId="trend" className="row mt-3">
-                        <Form.Label column sm={2}>trend</Form.Label>
+                        <Form.Label column sm={2}>TrendSet</Form.Label>
                         <Col sm={10}>
                             <Form.Control 
                                 as="select"
                                 value={trend} 
+                                placeholder="Choose TrendSet"
                                 onChange={handleTrendChange}
                             >
-                                <option value="">___</option>
+                                <option value=""></option>
                                 {Array.isArray(trendSetList) && trendSetList.map(trendSet => (
                                     <option key={trendSet.trends_set_id} value={trendSet.trends_set__name}>{trendSet.trends_set_name}</option>
                                 ))}

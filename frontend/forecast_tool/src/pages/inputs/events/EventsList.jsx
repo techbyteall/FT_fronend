@@ -42,31 +42,32 @@ export const EventsList = () => {
         // height: 'auto',
         width: 'auto',
         colHeaders: [ "Events Set ID", "Events Set name", "Created Date", "Comments",],
+        stretchH: 'all',
         columns: [
           { 
             data: 0, 
             type: "text",
             readOnly: true,
-            width: () => document.documentElement.clientWidth * 0.2 
+            // width: () => document.documentElement.clientWidth * 0.2 
           },
           { 
             data: 1, 
             type: "text",
             readOnly: true,
-            width: () => document.documentElement.clientWidth * 0.2 
+            // width: () => document.documentElement.clientWidth * 0.2 
           },
           { 
             data: 2, 
             type: "date",
             allowInvalid: false,
             readOnly: true,
-            width: () => document.documentElement.clientWidth * 0.2 
+            // width: () => document.documentElement.clientWidth * 0.2 
         },
         { 
             data: 3, 
             type: "text",
             readOnly: true,
-            width: () => document.documentElement.clientWidth * 0.2 
+            // width: () => document.documentElement.clientWidth * 0.2 
         },
         ],
         colWidths: 'auto',

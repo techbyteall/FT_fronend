@@ -20,7 +20,7 @@ function CheckBoxGroup() {
   };
 
   return (
-    <div style={{  width: "200px", border: "1px solid #ccc", padding: "10px", backgroundColor: "white"  }}>
+    <div style={{   border: "1px solid #ccc", padding: "10px", backgroundColor: "white"  }}> 
       <Row>
         <Col>
           <input
