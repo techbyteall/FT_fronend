@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
 
 
-const StatusModal = ({ show, handleClose }) => {
+const StatusModal = ({ show, handleClose, updateScenarioList  }) => {
     const [statusScName, setStatusScName] = useState('');
     const [comment, setComment] = useState('');
     const [model, setModel] = useState('');
@@ -67,6 +67,7 @@ const StatusModal = ({ show, handleClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // statusSc = 'created'
             const response = await fetch('http://localhost:8000/api/save_scenario/', {
                 method: 'POST',
                 headers: {
@@ -77,6 +78,7 @@ const StatusModal = ({ show, handleClose }) => {
                     model: model,
                     event: event,
                     trend: trend,
+                    // status: statusSc,
                     comment: comment,
                 }),
             });
@@ -87,6 +89,7 @@ const StatusModal = ({ show, handleClose }) => {
                 setEvent('');
                 setTrend('');
                 setComment('');
+                updateScenarioList();
             } else {
                 const data = await response.json();
                 if (response.status === 400 && data.message === 'Name already exists') {
@@ -114,7 +117,7 @@ const StatusModal = ({ show, handleClose }) => {
     return (
         <Modal size="lg" show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Register EventSet</Modal.Title>
+                <Modal.Title>Register Scenario</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -130,7 +133,7 @@ const StatusModal = ({ show, handleClose }) => {
                         </Col>
                     </Form.Group>
                     <Form.Group controlId="model" className="row mt-3">
-                        <Form.Label column sm={2}>model</Form.Label>
+                        <Form.Label column sm={2}>Model</Form.Label>
                         <Col sm={10}>
                             <Form.Control 
                                 as="select"
@@ -145,7 +148,7 @@ const StatusModal = ({ show, handleClose }) => {
                         </Col>
                     </Form.Group>
                     <Form.Group controlId="event" className="row mt-3">
-                        <Form.Label column sm={2}>event</Form.Label>
+                        <Form.Label column sm={2}>Events</Form.Label>
                         <Col sm={10}>
                             <Form.Control 
                                 as="select"
@@ -160,7 +163,7 @@ const StatusModal = ({ show, handleClose }) => {
                         </Col>
                     </Form.Group>
                     <Form.Group controlId="trend" className="row mt-3">
-                        <Form.Label column sm={2}>trend</Form.Label>
+                        <Form.Label column sm={2}>Trends</Form.Label>
                         <Col sm={10}>
                             <Form.Control 
                                 as="select"

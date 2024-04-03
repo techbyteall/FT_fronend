@@ -40,16 +40,38 @@ export const Servers = () => {
         const settings = {
             data: initialData,
             rowHeaders: true,
-            colHeaders: ['Server Name', 'URL', 'Status', 'Description'],
-            height: 'auto',
+            colHeaders: ['Server Name', 'URL', 'Status', 'Comments'],
+            // height: 'auto',
+            autoColumnSize: true,
             width: 'auto',
+            stretchH:'all',
             columns: [
-              { data: 0, type: "text", readOnly: true },
-              { data: 1, type: "text", readOnly: true },
-              { data: 2, type: "text", readOnly: true },
-              { data: 3, type: "text", readOnly: true },
+                { 
+                    data: 0, 
+                    type: "text",
+                    readOnly: true,
+                    // width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+                  },
+                  { 
+                    data: 1, 
+                    type: "text",
+                    readOnly: true,
+                    // width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+                  },
+                  { 
+                    data: 2, 
+                    type: "text",
+                    readOnly: true,
+                    // width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+                },
+                { 
+                    data: 3, 
+                    type: "text",
+                    readOnly: true,
+                    // width: () => document.documentElement.clientWidth * 0.2 // Вычисление ширины колонки как 15% ширины экрана
+                },
             ],
-            colWidths: [150, 250, 250, 150, 250, 250],
+            colWidths: 'auto',
             licenseKey: 'non-commercial-and-evaluation',
             filters: true,
             dropdownMenu: true,
@@ -72,18 +94,13 @@ export const Servers = () => {
                     <AddServerModal />
                 </Col>
             </Row>
-            <Row className="mt-3">
-                <div className='hotTableContainer'>
-                    <HotTable settings={settings} />
-                </div>
-            </Row>
-            {/* <Row className="mt-3">
-                <Col>
-                    <div>
-                        <AddServerModal />
+            <Row className="mt-3 ml-3">
+                <Col md={12} >
+                    <div className='hotTableContainer' tg={10}>
+                        <HotTable  settings={settings} />
                     </div>
                 </Col>
-            </Row> */}
+            </Row>
         </div>
     )
 }

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
+import axios from 'axios'
+import { saveAs } from 'file-saver'
 
-const StartModal = ({ show, handleClose, }) => {
+const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
     
     const [chooseScenario, setChooseScenario] = useState('');
     const [chooseServer, setChooseServer] = useState('');
@@ -11,13 +13,14 @@ const StartModal = ({ show, handleClose, }) => {
     useEffect(() => {
         fetchScenarioSetList();
         fetchServerSetList();
-    }, []);
+    }, [isDataUpdated]);
 
     const fetchScenarioSetList = async () => {
         try {
             const response = await fetch('http://localhost:8000/api/sc_status_list/');
             const data = await response.json();
-            setChooseScenarioList(data.data); 
+            setChooseScenarioList(data.data);
+            setIsDataUpdated(false); 
         } catch (error) {
             console.error('Error fetching event set list:', error);
         }
@@ -39,31 +42,55 @@ const StartModal = ({ show, handleClose, }) => {
         setChooseServer(e.target.value);
     };
 
+    const updateScenario = async (scenarioName, serverName) => {
+        try {
+            await axios.put(`http://localhost:8000/api/scenarios/${scenarioName}/`, { server: serverName });
+        } catch (error) {
+            console.error('Error updating scenario:', error);
+        }
+    };
+    
+    const fetchCSVData = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/export_scenario/', {
+                params: { chooseScenario: chooseScenario }});
+            const blob = new Blob([response.data], { type: 'text/csv' });
+            saveAs(blob, 'Events1.csv');
+            if (response.status === 200) {
+                handleRunScenario();
+                console.log("ok");
+            } else {
+                console.error('Export CSV failed:', response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching CSV data:', error);
+        }
+    };
+    const handleRunScenario = async () => {
+        try {
+            const response = await axios.post('http://localhost:8000/api/run_scenario/'); 
+            console.log(response.data); 
+        } catch (error) {
+            console.error('Error running scenario:', error);
+        }
+    };
+  
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8000/api/save_event/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chooseScenario: chooseScenario,
-                    chooseServer: chooseServer,
-                }),
-            });
-            if (response.ok) {
-                handleClose();
-                setChooseScenario('');
-                setChooseServer('');
-                } else {
-                console.error('Error saving event:', error);
-            }
+            handleClose();
+            setChooseScenario('');
+            setChooseServer('');
+            await updateScenario(chooseScenario, chooseServer);
+            setIsDataUpdated(true);
+            fetchCSVData();
+            
+            // runScenario();
         } catch (error) {
-            console.error('Error saving event:', error);
-        } 
+            console.error('Error exporting CSV:', error);
+        }
     };
-  
+
     const handleCancel = () => {
         setChooseScenario('');
         setChooseServer('');

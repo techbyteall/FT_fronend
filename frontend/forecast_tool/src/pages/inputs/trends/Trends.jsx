@@ -9,6 +9,7 @@ export const Trends = () => {
     const [showTrendsList, setShowTrendsList] = useState(true);
     const [showButton, setShowButton] = useState(true);
     const [trendsSetId, setTrendsSetId] = useState(null);
+    const [selectTrendsSetId, setSelectTrendsSetId] = useState(null);
 
     const handleOpenModal = () => {
         setShowModal(true);
@@ -31,6 +32,10 @@ export const Trends = () => {
     const handleSetTrendSetId = (trendId) => {
         setTrendsSetId(trendId);
     };
+    const handleSetSelectTrendsSetId = (selectTrendId) => {
+        setSelectTrendsSetId(selectTrendId);
+    };
+
 
     return (
         <div>
@@ -39,14 +44,26 @@ export const Trends = () => {
                     {showButton && ( 
                         <Button variant="primary" className="btn-sm" onClick={handleOpenModal}>Register TrendSet</Button>
                     )}
-                    <TrendModal show={showModal} handleClose={handleCloseModal} handleProceed={handleProceed} setTrendSetId={handleSetTrendSetId}/>  {/*setEventSetId={handleSetTrendSetId}*/}
+                    <TrendModal 
+                        show={showModal} 
+                        handleClose={handleCloseModal} 
+                        handleProceed={handleProceed} 
+                        setTrendSetId={handleSetTrendSetId}
+                        setSelectTrendsSetId = {handleSetSelectTrendsSetId}
+                        />  {/*setEventSetId={handleSetTrendSetId}*/}
                 </Col>                    
             </Row>
             <Row className="mt-3">
-                <Col>
+                {/* <Col>
                     {showTrendsList ? <TrendsList /> : <TrendSetCreate onClose={handleShowTrendsList} trendsSetId={trendsSetId} />}
+                </Col> */}
+                <Col>
+                    {showTrendsList ? <TrendsList /> : <TrendSetCreate 
+                                        onClose={handleShowTrendsList} 
+                                        trendsSetId={trendsSetId} 
+                                        selectTrendsSetId={selectTrendsSetId}/>}
                 </Col>
             </Row>
         </div>
-    )
+    );
 }

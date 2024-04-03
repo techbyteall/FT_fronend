@@ -17,10 +17,11 @@ function CheckBoxGroupTR() {
       // В противном случае активируем чекбокс
       setCheckedIndices([...checkedIndices, index]);
     }
+ 
   };
 
   return (
-    <div style={{ width: "300px", border: "1px solid #ccc", padding: "10px", backgroundColor: "white"  }}>
+    <div style={{ width: "200px", border: "1px solid #ccc", padding: "10px", backgroundColor: "white"  }}>
       <Row>
         <Col>
           <input
@@ -29,7 +30,7 @@ function CheckBoxGroupTR() {
             checked={checkedIndices.includes(0)}
             style={{ marginRight: '10px'}}
           />
-          <label>Conventional Wells</label>
+          <label>All</label>
         </Col>
       </Row>
       <Row>
@@ -40,7 +41,7 @@ function CheckBoxGroupTR() {
             checked={checkedIndices.includes(1)}
             style={{ marginRight: '10px'}}
           />
-          <label>Unit SD</label>
+          <label>New wells</label>
         </Col>
       </Row>
       
@@ -52,7 +53,7 @@ function CheckBoxGroupTR() {
             checked={checkedIndices.includes(2)}
             style={{ marginRight: '10px'}}
           />
-          <label>New Wells</label>
+          <label>WBU</label>
         </Col>
       </Row>
       <Row>
@@ -63,7 +64,7 @@ function CheckBoxGroupTR() {
             checked={checkedIndices.includes(3)}
             style={{ marginRight: '10px'}}
           />
-          <label>Seasonal Wells</label>
+          <label>Central</label>
         </Col>
       </Row>
       <Row>
@@ -74,7 +75,7 @@ function CheckBoxGroupTR() {
             checked={checkedIndices.includes(4)}
             style={{ marginRight: '10px'}}
           />
-          <label>Specific Wells</label>
+          <label>North</label>
         </Col>
       </Row>
       <Row>
@@ -85,7 +86,7 @@ function CheckBoxGroupTR() {
             checked={checkedIndices.includes(5)}
             style={{ marginRight: '10px'}}
           />
-          <label>Wells Constraints</label>
+          <label>South</label>
         </Col>
       </Row>
       <Row>
@@ -96,7 +97,7 @@ function CheckBoxGroupTR() {
             checked={checkedIndices.includes(6)}
             style={{ marginRight: '10px'}}
           />
-          <label>FMAP</label>
+          <label>Special</label>
         </Col>
       </Row>
       <Row>
@@ -107,7 +108,7 @@ function CheckBoxGroupTR() {
             checked={checkedIndices.includes(7)}
             style={{ marginRight: '10px'}}
           />
-          <label>Pipe Routing</label>
+          <label>Wet wells</label>
         </Col>
       </Row>
       <Row>
@@ -118,53 +119,10 @@ function CheckBoxGroupTR() {
             checked={checkedIndices.includes(8)}
             style={{ marginRight: '10px'}}
           />
-          <label>Well Routing</label>
+          <label>Gas breakthrough</label>
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(9)}
-            checked={checkedIndices.includes(9)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Hook Up</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(10)}
-            checked={checkedIndices.includes(10)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Process</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(11)}
-            checked={checkedIndices.includes(11)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Export</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(12)}
-            checked={checkedIndices.includes(12)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Consolidated Sheet</label>
-        </Col>
-      </Row>
+      
     </div>
   );
 }

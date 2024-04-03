@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
 
-const EventModal = ({ show, handleClose, handleProceed, setEventSetId }) => {
+const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelectEventsSetId }) => {
     const [eventName, setEventName] = useState('');
     const [comment, setComment] = useState('');
     const [choose, setChoose] = useState('');
@@ -44,6 +44,7 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId }) => {
                 body: JSON.stringify({
                     eventName: eventName,
                     comment: comment,
+                    choose: choose,
                 }),
             });
             if (response.ok) {
@@ -53,6 +54,9 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId }) => {
                 setEventName('');
                 setComment('');
                 setEventSetId(data.events_set_id);
+                if (data.selected_event_id !== undefined && data.selected_event_id !== null) {
+                    setSelectEventsSetId(data.selected_event_id);
+                }
             } else {
                 const data = await response.json();
                 if (response.status === 400 && data.message === 'Name already exists') {
@@ -60,9 +64,10 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId }) => {
                     setEventName('');
                     document.getElementById('eventName').focus();
                 } else {
-                    // Обработка других ошибок
+                    
                 }
             }
+            setChoose('');
         } catch (error) {
             console.error('Error saving event:', error);
         } 
@@ -101,7 +106,7 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId }) => {
                                 value={choose} 
                                 onChange={handleChooseChange}
                             >
-                                <option value="">Blanc</option>
+                                <option value="">Blank</option>
                                 {Array.isArray(eventSetList) && eventSetList.map(eventSet => (
                                     <option key={eventSet.events_set_id} value={eventSet.events_set_name}>{eventSet.events_set_name}</option>
                                 ))}

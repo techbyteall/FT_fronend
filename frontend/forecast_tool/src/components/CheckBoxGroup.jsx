@@ -1,172 +1,55 @@
-import React, { useState } from "react";
-import { Row, Col } from "react-bootstrap";
+import React, { useState, useEffect } from 'react';
+import { Row, Col } from 'react-bootstrap';
 
-function CheckBoxGroup() {
-  const [checkedIndices, setCheckedIndices] = useState([0]); // Начально нет активных чекбоксов
+function CheckBoxGroup({ categorySubDataSourceMapping, filteredData, setFilteredData, originalData, checkedItems, setCheckedItems }) {
+    
+    useEffect(() => {
+        const initialCheckedItems = Object.fromEntries(Object.keys(categorySubDataSourceMapping).map(index => [index, false]));
+        setCheckedItems(initialCheckedItems);
+    }, []);
 
-  const handleCheckboxChange = (index) => {
-    // Если активирован только один чекбокс и он пытается быть деактивированным, игнорируем его
-    if (checkedIndices.length === 1 && checkedIndices.includes(index)) {
-      return;
-    }
+    const handleCheckboxChange = (index) => {
+        const newCheckedItems = { ...checkedItems, [index]: !checkedItems[index] };
+        setCheckedItems(newCheckedItems);
+        filterDataByCheckedItems(newCheckedItems);
+    };
+    
 
-    // Если чекбокс с индексом index уже активирован, деактивируем его
-    if (checkedIndices.includes(index)) {
-      setCheckedIndices(checkedIndices.filter((idx) => idx !== index));
-    } else {
-      // В противном случае активируем чекбокс
-      setCheckedIndices([...checkedIndices, index]);
-    }
-  };
+    const filterDataByCheckedItems = (checkedItems) => {
+        if (Object.values(checkedItems).every(value => value === false)) {
+            setFilteredData(originalData);
+        } else {
+            const newData = originalData.filter(row => {
+                const categoryIndex = Object.keys(categorySubDataSourceMapping).find(key => categorySubDataSourceMapping[key] === row[5]);
+                return checkedItems[categoryIndex];
+            });
+            setFilteredData(newData);
+        }
+    };
 
-  return (
-    <div style={{  width: "300px", border: "1px solid #ccc", padding: "10px", backgroundColor: "white"  }}>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(0)}
-            checked={checkedIndices.includes(0)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Conventional Wells</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(1)}
-            checked={checkedIndices.includes(1)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Unit SD</label>
-        </Col>
-      </Row>
-      
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(2)}
-            checked={checkedIndices.includes(2)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>New Wells</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(3)}
-            checked={checkedIndices.includes(3)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Seasonal Wells</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(4)}
-            checked={checkedIndices.includes(4)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Specific Wells</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(5)}
-            checked={checkedIndices.includes(5)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Wells Constraints</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(6)}
-            checked={checkedIndices.includes(6)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>FMAP</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(7)}
-            checked={checkedIndices.includes(7)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Pipe Routing</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(8)}
-            checked={checkedIndices.includes(8)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Well Routing</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(9)}
-            checked={checkedIndices.includes(9)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Hook Up</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(10)}
-            checked={checkedIndices.includes(10)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Process</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(11)}
-            checked={checkedIndices.includes(11)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Export</label>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange(12)}
-            checked={checkedIndices.includes(12)}
-            style={{ marginRight: '10px'}}
-          />
-          <label>Consolidated Sheet</label>
-        </Col>
-      </Row>
-    </div>
-  );
+    useEffect(() => {
+        filterDataByCheckedItems(checkedItems);
+    }, [checkedItems]);
+
+
+    return (
+        <div style={{ width: '200px', border: '1px solid #ccc', padding: '10px', backgroundColor: 'white' }}>
+            
+            {Object.entries(categorySubDataSourceMapping).map(([index, label]) => (
+                <Row key={index}>
+                    <Col>
+                        <input
+                            type='checkbox'
+                            onChange={() => handleCheckboxChange(index)}
+                            checked={checkedItems[index]}
+                            style={{ marginRight: '10px' }}
+                        />
+                        <label>{label}</label>
+                    </Col>
+                </Row>
+            ))}
+        </div>
+    );
 }
 
 export default CheckBoxGroup;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
 
-const TrendModal = ({ show, handleClose, handleProceed, setTrendSetId }) => {
+const TrendModal = ({ show, handleClose, handleProceed, setTrendSetId, setSelectTrendsSetId }) => {
     const [trendName, setTrendName] = useState('');
     const [comment, setComment] = useState('');
     const [choose, setChoose] = useState('');
@@ -44,6 +44,7 @@ const TrendModal = ({ show, handleClose, handleProceed, setTrendSetId }) => {
                 body: JSON.stringify({
                     trendName: trendName,
                     comment: comment,
+                    choose: choose,
                 }),
             });
             if (response.ok) {
@@ -52,8 +53,10 @@ const TrendModal = ({ show, handleClose, handleProceed, setTrendSetId }) => {
                 handleProceed();
                 setTrendName('');
                 setComment('');
-                setChoose('');
                 setTrendSetId(data.trends_set_id);
+                if (data.selected_trend_id !== undefined && data.selected_trend_id !== null) {
+                    setSelectTrendsSetId(data.selected_trend_id);
+                }
             } else {
                 const data = await response.json();
                 if (response.status === 400 && data.message === 'Name already exists') {
@@ -64,6 +67,7 @@ const TrendModal = ({ show, handleClose, handleProceed, setTrendSetId }) => {
                     // Обработка других ошибок
                 }
             }
+            setChoose('');
         } catch (error) {
             console.error('Error saving trend:', error);
         } 
@@ -102,9 +106,9 @@ const TrendModal = ({ show, handleClose, handleProceed, setTrendSetId }) => {
                                 value={choose} 
                                 onChange={handleChooseChange}
                             >
-                                <option value="">Blanc</option>
+                                <option value="">Blank</option>
                                 {Array.isArray(trendSetList) && trendSetList.map(trendSet => (
-                                    <option key={trendSet.id} value={trendSet.name}>{trendSet.name}</option> // Исправил ключи и значения
+                                    <option key={trendSet.trends_set_id} value={trendSet.trends_set_name}>{trendSet.trends_set_name}</option> // Исправил ключи и значения
                                 ))}
                             </Form.Control>
                         </Col>
