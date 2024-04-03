@@ -59,3 +59,45 @@ th {
     background-color: #EEF0F9 !important;
 }
 
+
+.notification {
+    position: fixed;
+    top: 75px;
+    right: 40px;
+    padding: 5px;
+    border-radius: 23px;
+    color: #000000;
+    z-index: 9999;
+    cursor: pointer;
+    max-width: 250px; 
+    text-align: center; 
+}
+
+
+.notification.error {
+    background-color: #ffffff;
+    color: #ff0033;
+    border: 1px solid #ff0000;
+}
+
+.notification.success {
+    background-color: #ffffff;
+    color: #4070f4;
+    border: 1px solid #4070f4;
+}
+
+/* .notification-close {
+    margin-left: 5px;
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+} */
+
+
+.dropdown-cell::after {
+    content: '▼';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+  }

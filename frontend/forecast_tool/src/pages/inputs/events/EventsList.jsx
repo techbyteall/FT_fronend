@@ -17,7 +17,6 @@ export const EventsList = () => {
             if (!response.ok) {
               throw new Error('Failed to fetch data');
             }
-    
             const data = await response.json();
             setShowEventSet(data.data);
           } catch (error) {
@@ -29,7 +28,7 @@ export const EventsList = () => {
       }, []);
     
 
-    const initialData = Array.isArray(showEventSet) ? showEventSet.map(item => [//showEventSet.map(item => [
+    const initialData = Array.isArray(showEventSet) ? showEventSet.map(item => [
         item.events_set_id,
         item.events_set_name,
         item.created_date,
@@ -39,16 +38,39 @@ export const EventsList = () => {
     const settings = {
         data: initialData,
         rowHeaders: true,
-        height: 'auto',
+        autoColumnSize: true,
+        // height: 'auto',
         width: 'auto',
-        colHeaders: [ "EventSet ID", "EventsSet name", "Created Date", "Coments",],
+        stretchH:'all',
+        colHeaders: [ "EventsSet ID", "EventsSet name", "Created Date", "Comments",],
         columns: [
-            { data: 0, type: "text" , readOnly: true },
-            { data: 1, type: "text", readOnly: true  },
-            { data: 2, type: "date", allowInvalid: false, readOnly: true  },
-            { data: 3, type: "text", readOnly: true  },
+          { 
+            data: 0, 
+            type: "text",
+            readOnly: true,
+            // width: () => document.documentElement.clientWidth * 0.2 
+          },
+          { 
+            data: 1, 
+            type: "text",
+            readOnly: true,
+            // width: () => document.documentElement.clientWidth * 0.2 
+          },
+          { 
+            data: 2, 
+            type: "date",
+            allowInvalid: false,
+            readOnly: true,
+            // width: () => document.documentElement.clientWidth * 0.2 
+        },
+        { 
+            data: 3, 
+            type: "text",
+            readOnly: true,
+            // width: () => document.documentElement.clientWidth * 0.2 
+        },
         ],
-        colWidths: [150, 150, 150, 150],
+        colWidths: 'auto',
         licenseKey: "non-commercial-and-evaluation",
         dropdownMenu: true,
         filters: true,
@@ -56,7 +78,7 @@ export const EventsList = () => {
     };
     return (
         <div className='tabs'>
-          <div className='hotTableContainer'>
+          <div className='hotTableContainer' lg={12}>
             <HotTable settings={settings} />
           </div>
         </div>

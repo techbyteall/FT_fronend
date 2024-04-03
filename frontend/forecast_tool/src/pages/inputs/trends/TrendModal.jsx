@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
 
-const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelectEventsSetId }) => {
-    const [eventName, setEventName] = useState('');
+const TrendModal = ({ show, handleClose, handleProceed, setTrendSetId, setSelectTrendsSetId }) => {
+    const [trendName, setTrendName] = useState('');
     const [comment, setComment] = useState('');
     const [choose, setChoose] = useState('');
-    const [eventSetList, setEventSetList] = useState([]);
+    const [trendSetList, setTrendSetList] = useState([]);
 
     useEffect(() => {
-        fetchEventSetList();
+        fetchTrendSetList();
     }, []);
 
-    const fetchEventSetList = async () => {
+    const fetchTrendSetList = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/events_set_list/');
+            const response = await fetch('http://localhost:8000/api/trends_set_list/');
             const data = await response.json();
-            setEventSetList(data.data); 
+            setTrendSetList(data); // Убрал .data, так как данные уже приходят в нужном формате
         } catch (error) {
-            console.error('Error fetching event set list:', error);
+            console.error('Error fetching trend set list:', error);
         }
     };
 
     const handleInputChange = (e) => {
-        setEventName(e.target.value);
+        setTrendName(e.target.value);
     };
 
     const handleCommentChange = (e) => {
@@ -36,13 +36,13 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelect
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8000/api/save_event/', {
+            const response = await fetch('http://localhost:8000/api/save_trend/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    eventName: eventName,
+                    trendName: trendName,
                     comment: comment,
                     choose: choose,
                 }),
@@ -51,30 +51,30 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelect
                 const data = await response.json();
                 handleClose();
                 handleProceed();
-                setEventName('');
+                setTrendName('');
                 setComment('');
-                setEventSetId(data.events_set_id);
-                if (data.selected_event_id !== undefined && data.selected_event_id !== null) {
-                    setSelectEventsSetId(data.selected_event_id);
+                setTrendSetId(data.trends_set_id);
+                if (data.selected_trend_id !== undefined && data.selected_trend_id !== null) {
+                    setSelectTrendsSetId(data.selected_trend_id);
                 }
             } else {
                 const data = await response.json();
                 if (response.status === 400 && data.message === 'Name already exists') {
                     alert('Name already exists. Please enter a different name.');
-                    setEventName('');
-                    document.getElementById('eventName').focus();
+                    setTrendName('');
+                    document.getElementById('trendName').focus();
                 } else {
-                    
+                    // Обработка других ошибок
                 }
             }
             setChoose('');
         } catch (error) {
-            console.error('Error saving event:', error);
+            console.error('Error saving trend:', error);
         } 
     };
   
     const handleCancel = () => {
-        setEventName('');
+        setTrendName('');
         setComment('');
         setChoose('');
         handleClose(false);
@@ -83,17 +83,17 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelect
     return (
         <Modal size="lg" show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Register EventSet</Modal.Title>
+                <Modal.Title>Register TrendSet</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="eventName" className="row">
+                    <Form.Group controlId="trendName" className="row">
                         <Form.Label column sm={2}>Name</Form.Label>
                         <Col sm={10}>
                             <Form.Control 
                                 type="text" 
-                                placeholder="Enter event name" 
-                                value={eventName} 
+                                placeholder="Enter trend name" 
+                                value={trendName} 
                                 onChange={handleInputChange} 
                             />
                         </Col>
@@ -107,8 +107,8 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelect
                                 onChange={handleChooseChange}
                             >
                                 <option value="">Blank</option>
-                                {Array.isArray(eventSetList) && eventSetList.map(eventSet => (
-                                    <option key={eventSet.events_set_id} value={eventSet.events_set_name}>{eventSet.events_set_name}</option>
+                                {Array.isArray(trendSetList) && trendSetList.map(trendSet => (
+                                    <option key={trendSet.trends_set_id} value={trendSet.trends_set_name}>{trendSet.trends_set_name}</option> // Исправил ключи и значения
                                 ))}
                             </Form.Control>
                         </Col>
@@ -132,7 +132,7 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelect
                             className="btn-sm" 
                             onClick={handleSubmit} 
                             style={{ marginRight: '23px', width: '100px' }}
-                            disabled={!eventName.trim()}
+                            disabled={!trendName.trim()}
                         >
                             Proceed
                         </Button>
@@ -151,4 +151,4 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelect
     );
 } 
 
-export default EventModal;
+export default TrendModal;

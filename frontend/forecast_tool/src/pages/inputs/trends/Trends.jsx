@@ -1,60 +1,69 @@
-
-import { 
-    Container, 
-    Row, 
-    Col,
-    Button,
-    Table
-} from "react-bootstrap";
+import React, { useState } from 'react';
+import { Container, Row, Col, Button, Table } from "react-bootstrap";
 import TrendsList from "./TrendsList";
+import TrendModal from './TrendModal';
+import TrendSetCreate from "./TrendSetCreate";
 
 export const Trends = () => {
-  return (
-    <div>
-        <Row className="mt-3">
-            <Col>
-                <Button variant="primary" className="btn-sm">Register TrendSet</Button>{' '}
-            </Col>
-        </Row>
-        <Row className="mt-3">
-            <Col>
-                <TrendsList />
-            </Col>
-        </Row>
-        {/* <Row className="mt-3">
-            <Col>
-                <Table bordered hover size="sm">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>raim</td>
-                            <td>adl</td>
-                            <td>@adl</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>raim2</td>
-                            <td>adl</td>
-                            <td>@adl2</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>raim</td>
-                            <td>adl3</td>
-                            <td>@adl3</td>
-                        </tr>
-                    </tbody>
-                </Table>
-            </Col>
-        </Row> */}
-    </div>
-  )
+    const [showModal, setShowModal] = useState(false);
+    const [showTrendsList, setShowTrendsList] = useState(true);
+    const [showButton, setShowButton] = useState(true);
+    const [trendsSetId, setTrendsSetId] = useState(null);
+    const [selectTrendsSetId, setSelectTrendsSetId] = useState(null);
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+    const handleCloseModal = (shouldShowTrendsList) => {
+        setShowModal(false);
+        if (shouldShowTrendsList) {
+            setShowTrendsList(true);
+        }
+    };
+    const handleProceed = () => {
+        setShowTrendsList(false);
+        setShowModal(false);
+        setShowButton(false);
+    };
+    const handleShowTrendsList = () => {
+        setShowTrendsList(true);
+        setShowButton(true);
+    };
+    const handleSetTrendSetId = (trendId) => {
+        setTrendsSetId(trendId);
+    };
+    const handleSetSelectTrendsSetId = (selectTrendId) => {
+        setSelectTrendsSetId(selectTrendId);
+    };
+
+
+    return (
+        <div>
+            <Row className="mt-3">
+                <Col>
+                    {showButton && ( 
+                        <Button variant="primary" className="btn-sm" onClick={handleOpenModal}>Register TrendSet</Button>
+                    )}
+                    <TrendModal 
+                        show={showModal} 
+                        handleClose={handleCloseModal} 
+                        handleProceed={handleProceed} 
+                        setTrendSetId={handleSetTrendSetId}
+                        setSelectTrendsSetId = {handleSetSelectTrendsSetId}
+                        />  {/*setEventSetId={handleSetTrendSetId}*/}
+                </Col>                    
+            </Row>
+            <Row className="mt-3">
+                {/* <Col>
+                    {showTrendsList ? <TrendsList /> : <TrendSetCreate onClose={handleShowTrendsList} trendsSetId={trendsSetId} />}
+                </Col> */}
+                <Col>
+                    {showTrendsList ? <TrendsList /> : <TrendSetCreate 
+                                        onClose={handleShowTrendsList} 
+                                        trendsSetId={trendsSetId} 
+                                        selectTrendsSetId={selectTrendsSetId}/>}
+                </Col>
+            </Row>
+        </div>
+    );
 }

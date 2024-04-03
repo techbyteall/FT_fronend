@@ -1,118 +1,111 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
 
-const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelectEventsSetId }) => {
-    const [eventName, setEventName] = useState('');
+const AddServerModal = ({ show, handleClose, handleAdd }) => {
+    const [serverName, setServerName] = useState('');
+    const [serverURL, setServerURL] = useState('');
     const [comment, setComment] = useState('');
-    const [choose, setChoose] = useState('');
-    const [eventSetList, setEventSetList] = useState([]);
 
-    useEffect(() => {
-        fetchEventSetList();
-    }, []);
-
-    const fetchEventSetList = async () => {
-        try {
-            const response = await fetch('http://localhost:8000/api/events_set_list/');
-            const data = await response.json();
-            setEventSetList(data.data); 
-        } catch (error) {
-            console.error('Error fetching event set list:', error);
-        }
+    const handleTestConnection = () => {
+        console.log('Testing connection to server...');
     };
 
-    const handleInputChange = (e) => {
-        setEventName(e.target.value);
+    const handleServerChange = (e) => {
+        setServerName(e.target.value);
     };
 
     const handleCommentChange = (e) => {
         setComment(e.target.value);
     };
 
-    const handleChooseChange = (e) => {
-        setChoose(e.target.value);
+    const handleUrlChange = (e) => {
+        setServerURL(e.target.value);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8000/api/save_event/', {
+            console.log('Отправляем данные на сервер:', JSON.stringify({
+                serverName: serverName,
+                serverURL: serverURL,
+                comment: comment,
+                statusServer: 'created'
+            }));
+            const response = await fetch('http://localhost:8000/api/servers_create/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    eventName: eventName,
+                    serverName: serverName,
+                    serverURL: serverURL,
                     comment: comment,
-                    choose: choose,
+                    statusServer: 'created'
                 }),
             });
             if (response.ok) {
-                const data = await response.json();
                 handleClose();
-                handleProceed();
-                setEventName('');
+                setServerName('');
                 setComment('');
-                setEventSetId(data.events_set_id);
-                if (data.selected_event_id !== undefined && data.selected_event_id !== null) {
-                    setSelectEventsSetId(data.selected_event_id);
-                }
+                setServerURL('')
             } else {
                 const data = await response.json();
                 if (response.status === 400 && data.message === 'Name already exists') {
                     alert('Name already exists. Please enter a different name.');
-                    setEventName('');
-                    document.getElementById('eventName').focus();
+                    setServerName('');
+                    document.getElementById('serverName').focus();
                 } else {
-                    
+                    // Обработка других ошибок
                 }
             }
-            setChoose('');
         } catch (error) {
-            console.error('Error saving event:', error);
+            console.error('Error saving model:', error);
         } 
     };
-  
+
     const handleCancel = () => {
-        setEventName('');
+        setServerName('');
         setComment('');
-        setChoose('');
+        setServerURL('');
         handleClose(false);
     }
-  
     return (
         <Modal size="lg" show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Register EventSet</Modal.Title>
+                <Modal.Title>Register Server</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="eventName" className="row">
-                        <Form.Label column sm={2}>Name</Form.Label>
+                    <Form.Group controlId="serverName" className="row">
+                        <Form.Label column sm={2}>Server Name</Form.Label>
                         <Col sm={10}>
                             <Form.Control 
                                 type="text" 
-                                placeholder="Enter event name" 
-                                value={eventName} 
-                                onChange={handleInputChange} 
+                                placeholder="Enter server name" 
+                                value={serverName} 
+                                onChange={handleServerChange} 
                             />
                         </Col>
                     </Form.Group>
-                    <Form.Group controlId="choose" className="row mt-3">
-                        <Form.Label column sm={2}>Choose Set</Form.Label>
+                    <Form.Group controlId="serverURL" className="row mt-3">
+                        <Form.Label column sm={2}>Server URL</Form.Label>
                         <Col sm={10}>
                             <Form.Control 
-                                as="select"
-                                value={choose} 
-                                onChange={handleChooseChange}
-                            >
-                                <option value="">Blank</option>
-                                {Array.isArray(eventSetList) && eventSetList.map(eventSet => (
-                                    <option key={eventSet.events_set_id} value={eventSet.events_set_name}>{eventSet.events_set_name}</option>
-                                ))}
-                            </Form.Control>
+                                type="text" 
+                                placeholder="Enter url" 
+                                value={serverURL} 
+                                onChange={handleUrlChange} 
+                            />
                         </Col>
                     </Form.Group>
+                    <Button 
+                        variant="secondary" 
+                        className="btn-sm" 
+                        onClick={handleTestConnection}
+                        style={{ marginRight: '23px', width: '150px', marginTop: 17 }}
+                        >
+                        Test Connection
+                    </Button>
                     <Form.Group controlId="comment" className="row mt-3">
                         <Form.Label column sm={2}>Comment</Form.Label>
                         <Col sm={10}>
@@ -132,7 +125,7 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelect
                             className="btn-sm" 
                             onClick={handleSubmit} 
                             style={{ marginRight: '23px', width: '100px' }}
-                            disabled={!eventName.trim()}
+                            disabled={!serverName.trim()}                        
                         >
                             Proceed
                         </Button>
@@ -149,6 +142,6 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelect
             </Modal.Body>
         </Modal>
     );
-} 
+};
 
-export default EventModal;
+export default AddServerModal;
