@@ -39,31 +39,26 @@ export const TrendsList = () => {
     data: initialData,
     rowHeaders: true,
     colHeaders: ['TrendsSet Name', 'Created Date',  'Comments'],
-    // height: 'auto',
     autoColumnSize: true,
     width: 'auto',
     stretchH:'all',
     columns: [
-      //{ data: 0, type: "text", readOnly: true },
       { 
         data: 0, 
         type: "text",
         readOnly: true,
-        // width: () => document.documentElement.clientWidth * 0.3 // Вычисление ширины колонки как 15% ширины экрана
       },
       { 
         data: 1, 
         type: "date",
         allowInvalid: false,
         readOnly: true,
-        // width: () => document.documentElement.clientWidth * 0.3 // Вычисление ширины колонки как 15% ширины экрана
       },
       { 
         data: 2, 
         type: "text",
         readOnly: true,
-        // width: () => document.documentElement.clientWidth * 0.3 // Вычисление ширины колонки как 15% ширины экрана
-    },
+      },
     ],
     colWidths: 'auto',
     licenseKey: 'non-commercial-and-evaluation',

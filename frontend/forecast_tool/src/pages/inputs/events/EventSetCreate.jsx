@@ -108,6 +108,7 @@ const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
                 value: rowData[4],
                 sub_data_source: rowData[5],
                 data_source_id: eventsSetId,
+                
             };
             jsonDataArray.push(jsonData);
         });

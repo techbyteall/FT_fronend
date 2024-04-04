@@ -15,7 +15,7 @@ const TrendModal = ({ show, handleClose, handleProceed, setTrendSetId, setSelect
         try {
             const response = await fetch('http://localhost:8000/api/trends_set_list/');
             const data = await response.json();
-            setTrendSetList(data); // Убрал .data, так как данные уже приходят в нужном формате
+            setTrendSetList(data); 
         } catch (error) {
             console.error('Error fetching trend set list:', error);
         }
