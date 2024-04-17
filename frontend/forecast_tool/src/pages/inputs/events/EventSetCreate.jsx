@@ -7,6 +7,7 @@ import axios from 'axios';
 import 'handsontable/dist/handsontable.full.min.css';
 
 import CheckBoxGroup from '../../../components/CheckBoxGroup';
+import WellRoutingTable from './events_config/WellRoutingTable';
 
 registerAllModules();
 
@@ -17,6 +18,15 @@ const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
     const [notificationMessage, setNotificationMessage] = useState('');
     const [notificationError, setNotificationError] = useState(false);
     const [checkedItems, setCheckedItems] = useState({});
+
+    const [showWellRoutingTable, setShowWellRoutingTable] = useState(false);
+    
+    const handleShowWellRoutingTable = () => {
+        setShowWellRoutingTable(true);
+    };
+    const handleCloseWellRoutingTable = () => {
+        setShowWellRoutingTable(false);
+    };
 
     const categorySubDataSourceMapping = {
         1: 'Unit SD',
@@ -138,6 +148,7 @@ const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
         setShowSaveNotification(false);
     };
     const notificationClassName = `notification ${notificationError ? 'error' : 'success'}`;
+    
 
     const settings = {
         data: filteredData,
@@ -214,6 +225,11 @@ const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
                             originalData={originalData}
                             checkedItems={checkedItems}
                             setCheckedItems={setCheckedItems} />
+                        <Button variant='primary' 
+                                className='btn-sm' 
+                                style={{ marginTop: '15px', marginLeft: '50px', display: checkedItems[8] ? 'block' : 'none' }} 
+                                onClick={handleShowWellRoutingTable}>Well Routing</Button>
+                        <WellRoutingTable show={showWellRoutingTable} handleClose={handleCloseWellRoutingTable} /> 
                     </Col>
                     <Col className='mt-3' lg={10}>
                         <HotTable settings={settings} />

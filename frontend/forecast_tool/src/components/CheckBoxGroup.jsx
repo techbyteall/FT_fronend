@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button  } from 'react-bootstrap';
 
-function CheckBoxGroup({ categorySubDataSourceMapping, filteredData, setFilteredData, originalData, checkedItems, setCheckedItems }) {
+function CheckBoxGroup({ categorySubDataSourceMapping , filteredData, setFilteredData, originalData, checkedItems, setCheckedItems }) {
     
     useEffect(() => {
         const initialCheckedItems = Object.fromEntries(Object.keys(categorySubDataSourceMapping).map(index => [index, false]));
         setCheckedItems(initialCheckedItems);
     }, []);
 
+    
     const handleCheckboxChange = (index) => {
         const newCheckedItems = { ...checkedItems, [index]: !checkedItems[index] };
         setCheckedItems(newCheckedItems);
@@ -30,7 +31,6 @@ function CheckBoxGroup({ categorySubDataSourceMapping, filteredData, setFiltered
     useEffect(() => {
         filterDataByCheckedItems(checkedItems);
     }, [checkedItems]);
-
 
     return (
         <div style={{ width: '200px', border: '1px solid #ccc', padding: '10px', backgroundColor: 'white' }}>
