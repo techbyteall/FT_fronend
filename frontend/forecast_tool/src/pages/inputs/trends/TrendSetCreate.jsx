@@ -6,6 +6,8 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import CheckBoxGroupTR  from '../../../components/CheckBoxGroupTR';
 import axios from 'axios';
 import '../../../index.css'
+import baseUrl from '../../../links';
+
 registerAllModules();
 
 const TrendSetCreate = ({ onClose, trendsSetId, selectTrendsSetId }) => {
@@ -95,7 +97,7 @@ const TrendSetCreate = ({ onClose, trendsSetId, selectTrendsSetId }) => {
     //         });
     //     });
     
-    //     axios.post('http://localhost:8000/api/save_trends/', jsonDataArray)
+    //     axios.post('${baseUrl}/api/save_trends/', jsonDataArray)
     //         .then(response => {
     //             console.log('Data saved successfully:', response.data);
     //         })
@@ -168,7 +170,7 @@ const TrendSetCreate = ({ onClose, trendsSetId, selectTrendsSetId }) => {
             });
         });
         console.log(jsonDataArray);
-        axios.post('http://localhost:8000/api/save_trends/', jsonDataArray)
+        axios.post(`${baseUrl}/api/save_trends/`, jsonDataArray)
             .then(response => {
                 console.log('Data saved successfully:', response.data);
             })
@@ -213,7 +215,7 @@ const TrendSetCreate = ({ onClose, trendsSetId, selectTrendsSetId }) => {
             ];
         } else if (type === 'Watercut') {
             data = watercutData;
-            colHeaders = ['Well', 'Well Type', 'WCT_Date', 'WCT_Initial', 'WTC_Slope', 'WCT_SI_Criteria','WCT_Delay', 'Comments'];
+            colHeaders = ['Well', 'Well Type', 'WCT_Date', 'WCT_Initial', 'WCT_Slope', 'WCT_SI_Criteria','WCT_Delay', 'Comments'];
             columns = [
                 { data: 0, type: "text" },
                 { data: 1, type: "text" },
@@ -250,19 +252,6 @@ const TrendSetCreate = ({ onClose, trendsSetId, selectTrendsSetId }) => {
             width: 'auto',
             stretchH:'all',
             columns,
-            // columns: [
-            //     { data: 0, type: "text" },
-            //     { data: 1, type: "text" },
-            //     { data: 2, type: "text" },
-            //     { data: 3, type: "numeric" },
-            //     { data: 4, type: "numeric" },
-            //     { data: 5, type: "numeric" },
-            //     { data: 6, type: "numeric" },
-            //     { data: 7, type: "numeric" },
-            //     { data: 8, type: "numeric" },
-            //     { data: 9, type: "numeric" },
-            //     { data: 10, type: "text" }
-            // ],
             colWidths: 'auto',
             licenseKey: 'non-commercial-and-evaluation',
             filters: true,

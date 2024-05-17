@@ -4,6 +4,8 @@ import StatusList from "./StatusList";
 import StatusModal from "./StatusModal";
 import StartModal from "./StartModal";
 
+import baseUrl from "../../links";
+
 export const Status = () => {
     const [showStatusModal, setShowStatusModal] = useState(false);
     const [showStartModal, setShowStartModal] = useState(false);
@@ -27,7 +29,7 @@ export const Status = () => {
     };
     const fetchScenarioSetList = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/sc_status_list/');
+            const response = await fetch(`${baseUrl}/api/sc_status_list/`);
             const data = await response.json();
             setChooseScenarioList(data.data);
             setIsDataUpdated(false); 

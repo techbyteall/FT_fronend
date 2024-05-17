@@ -9,6 +9,8 @@ import 'handsontable/dist/handsontable.full.min.css';
 import CheckBoxGroup from '../../../components/CheckBoxGroup';
 import WellRoutingTable from './events_config/WellRoutingTable';
 
+import baseUrl from '../../../links';
+
 registerAllModules();
 
 const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
@@ -45,7 +47,7 @@ const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
 
     useEffect(() => {
         if (selectEventsSetId) {
-            axios.get(`http://localhost:8000/api/main_class/${selectEventsSetId}`)
+            axios.get(`${baseUrl}/api/main_class/${selectEventsSetId}`)
                 .then(response => {
                     const eventData = response.data.map(item => [
                         item.date_time,
@@ -64,26 +66,47 @@ const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
         }
     }, [selectEventsSetId]);
 
-    // const addEmptyRow = () => {
-    //     const newEmptyRow = ['', '', '', '', '', ''];
-    
-    //     const activeCheckboxes = Object.entries(checkedItems)
-    //         .filter(([index, isChecked]) => isChecked)
-    //         .map(([index]) => index);
-    
-    //     // Добавляем новую строку
-    //     setOriginalData(prevData => [...prevData, newEmptyRow]);
-    //     setFilteredData(prevData => [...prevData, newEmptyRow]);
-    
-    //     // Проверяем, что активен только один чекбокс
-    //     if (activeCheckboxes.length === 1) {
-    //         const categoryValue = categorySubDataSourceMapping[activeCheckboxes[0]];
-    //         newEmptyRow[5] = categoryValue;
-    //         // Обновляем столбец Category
-    //         setOriginalData(prevData => [...prevData, newEmptyRow]);
-    //         setFilteredData(prevData => [...prevData, newEmptyRow]);
-    //     }
-    // };
+
+
+        //test
+        const handleGetIVMData = () => {
+            axios.get('http://localhost:8000/api/get_ivm_data/')
+                .then(response => {
+                    const newData = response.data.map(item => [
+                        item.Date,
+                        item.Type,
+                        item.Name,
+                        item.Action,
+                        '', 
+                        'Pipe Routing'
+                    ]);
+                    setOriginalData(prevData => [...prevData, ...newData]);
+                    setFilteredData(prevData => [...prevData, ...newData]);
+                })
+                .catch(error => {
+                    console.error('Error fetching data from IVM:', error);
+                });
+        };
+        const handleGetIVMFMAP = () => {
+            axios.get('http://localhost:8000/api/get_ivm_fmap/')
+                .then(response => {
+                    const newData = response.data.map(item => [
+                        item.Date,//LastGoodSampleTime,
+                        item.Type,//ObjectTypeName,
+                        item.Name,//ObjectInstanceName,
+                        item.Action,//ObjectTypePropertyName,
+                        item.Value,//CurrentValue, 
+                        'FMAP'
+                    ]);
+                    setOriginalData(prevData => [...prevData, ...newData]);
+                    setFilteredData(prevData => [...prevData, ...newData]);
+                })
+                .catch(error => {
+                    console.error('Error fetching data from IVM:', error);
+                });
+        };
+
+        //test
     const addEmptyRow = () => {
         const activeCheckboxes = Object.entries(checkedItems)
             .filter(([index, isChecked]) => isChecked)
@@ -123,7 +146,7 @@ const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
             jsonDataArray.push(jsonData);
         });
 
-        axios.post('http://localhost:8000/api/save_events/', jsonDataArray)
+        axios.post(`${baseUrl}/api/save_events/`, jsonDataArray)
             .then(response => {
                 console.log('Data saved successfully:', response.data);
                 setShowSaveNotification(true);
@@ -157,6 +180,7 @@ const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
         autoColumnSize: true,
         width: 'auto',
         stretchH: 'all',
+        height: 500,
         columns: [
             {
                 data: 0,
@@ -230,6 +254,18 @@ const EventSetCreate = ({ onClose, eventsSetId, selectEventsSetId }) => {
                                 style={{ marginTop: '15px', marginLeft: '50px', display: checkedItems[8] ? 'block' : 'none' }} 
                                 onClick={handleShowWellRoutingTable}>Well Routing</Button>
                         <WellRoutingTable show={showWellRoutingTable} handleClose={handleCloseWellRoutingTable} /> 
+
+                        {/* test */}
+                        <Button variant='primary' 
+                                className='btn-sm' 
+                                style={{ marginTop: '15px', marginLeft: '50px', display: checkedItems[7] ? 'block' : 'none' }} 
+                                onClick={handleGetIVMData}>Get PR from IVM</Button>
+                         
+                        <Button variant='primary' 
+                                className='btn-sm' 
+                                style={{ marginTop: '15px', marginLeft: '50px', display: checkedItems[6] ? 'block' : 'none' }} 
+                                onClick={handleGetIVMFMAP}>Get FMAP from IVM</Button>
+                        {/* test */}
                     </Col>
                     <Col className='mt-3' lg={10}>
                         <HotTable settings={settings} />

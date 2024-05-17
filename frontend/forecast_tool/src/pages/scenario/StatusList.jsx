@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HotTable } from '@handsontable/react';
 import { registerAllModules } from 'handsontable/registry';
 import 'handsontable/dist/handsontable.full.min.css';
+import baseUrl from '../../links';
 
 import axios from 'axios';
 
@@ -13,7 +14,7 @@ const StatusList = ({isDataUpdated, setIsDataUpdated }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/sc_status_list/');
+        const response = await fetch(`${baseUrl}/api/sc_status_list/`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch data');

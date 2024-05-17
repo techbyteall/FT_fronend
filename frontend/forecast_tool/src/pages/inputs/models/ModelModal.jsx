@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
 
+import baseUrl from '../../../links';
+
 const ModelModal = ({ show, handleClose }) => {
     const [modelName, setModelName] = useState('');
     const [comment, setComment] = useState('');
@@ -14,42 +16,37 @@ const ModelModal = ({ show, handleClose }) => {
         setComment(e.target.value);
     };
 
-    const handleLocationChange = (e) => {
-        setLocation(e.target.value);
-    };
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        setLocation(file ? file.webkitRelativePath || file.name : '');
+        setLocation(file);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8000/api/save_model/', {
+            const formData = new FormData();
+            formData.append('modelName', modelName);
+            formData.append('comment', comment);
+            formData.append('file', location); 
+    
+            const response = await fetch(`${baseUrl}/api/save_model/`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    modelName: modelName,
-                    location: location,
-                    comment: comment,
-                }),
+                body: formData,
             });
+    
             if (response.ok) {
                 handleClose();
                 setModelName('');
                 setComment('');
                 setLocation('');
-                
             } else {
                 const data = await response.json();
                 if (response.status === 400 && data.message === 'Name already exists') {
                     alert('Name already exists. Please enter a different name.');
-                    setEventName('');
+                    setModelName('');
                     document.getElementById('modelName').focus();
                 } else {
-                    // Обработка других ошибок
+                    // Handle other errors
                 }
             }
         } catch (error) {
@@ -84,14 +81,6 @@ const ModelModal = ({ show, handleClose }) => {
                     </Form.Group>
                     <Form.Group controlId="location" className="row mt-3">
                         <Form.Label column sm={2}>Location</Form.Label>
-                        <Col sm={8}>
-                            <Form.Control 
-                                type="text" 
-                                placeholder="Choose location" 
-                                value={location} 
-                                onChange={handleLocationChange} 
-                            />
-                        </Col>
                         <Col sm={2}>
                             <Button 
                                 variant="secondary" 

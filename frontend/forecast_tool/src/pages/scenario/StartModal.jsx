@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
 import axios from 'axios'
 import { saveAs } from 'file-saver'
+import baseUrl from '../../links';
 
 const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
     
@@ -9,7 +10,8 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
     const [chooseServer, setChooseServer] = useState('');
     const [chooseScenarioList, setChooseScenarioList] = useState('');
     const [chooseServerList, setChooseServerList] = useState('');
-    
+    const [scenarioCase, setScenarioCase] = useState('');
+
     useEffect(() => {
         fetchScenarioSetList();
         fetchServerSetList();
@@ -17,7 +19,7 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
 
     const fetchScenarioSetList = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/sc_status_list/');
+            const response = await fetch(`${baseUrl}/api/sc_status_list/`);
             const data = await response.json();
             setChooseScenarioList(data.data);
             setIsDataUpdated(false); 
@@ -27,7 +29,7 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
     };
     const fetchServerSetList = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/servers_list/');
+            const response = await fetch(`${baseUrl}/api/servers_list/`);
             const data = await response.json();
             setChooseServerList(data.data); 
         } catch (error) {
@@ -41,10 +43,13 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
     const handleChooseServerChange = (e) => {
         setChooseServer(e.target.value);
     };
+    const handleScenarioCaseChange = (e) => {
+        setScenarioCase(e.target.value);
+    };
 
     const updateScenario = async (scenarioName, serverName) => {
         try {
-            await axios.put(`http://localhost:8000/api/scenarios/${scenarioName}/`, { server: serverName });
+            await axios.put(`${baseUrl}/api/scenarios/${scenarioName}/`, { server: serverName });
         } catch (error) {
             console.error('Error updating scenario:', error);
         }
@@ -52,15 +57,9 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
     
     const fetchCSVData = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/export_scenario/', {
-                params: { chooseScenario: chooseScenario }});
-            const blob = new Blob([response.data], { type: 'text/csv' });
-            // const blobT = new Blob([response.data.trends_csv], { type: 'text/csv' });
-            
-            saveAs(blob, 'Events1.csv');
-            // saveAs(blobT, 'Trends1.csv');
+            const response = await axios.get(`${baseUrl}/api/export_scenario/`, {
+                params: { chooseScenario: chooseScenario, scenarioCase: scenarioCase}});
             if (response.status === 200) {
-                // handleRunScenario();
                 console.log("ok", response.data);
             } else {
                 console.error('Export CSV failed:', response.data);
@@ -69,14 +68,7 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
             console.error('Error fetching CSV data:', error);
         }
     };
-    const handleRunScenario = async () => {
-        try {
-            const response = await axios.post('http://localhost:8000/api/run_scenario/'); 
-            console.log(response.data); 
-        } catch (error) {
-            console.error('Error running scenario:', error);
-        }
-    };
+
   
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -84,11 +76,11 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
             handleClose();
             setChooseScenario('');
             setChooseServer('');
+            setScenarioCase('');
             await updateScenario(chooseScenario, chooseServer);
             setIsDataUpdated(true);
             fetchCSVData();
             
-            // runScenario();
         } catch (error) {
             console.error('Error exporting CSV:', error);
         }
@@ -97,6 +89,7 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
     const handleCancel = () => {
         setChooseScenario('');
         setChooseServer('');
+        setScenarioCase('');
         handleClose(false);
     }
   
@@ -120,6 +113,17 @@ const StartModal = ({ show, handleClose, isDataUpdated, setIsDataUpdated}) => {
                                  <option key={scenario.scenario_id} value={scenario.scenario_name}>{scenario.scenario_name}</option>
                                 ))}
                             </Form.Control>
+                        </Col>
+                    </Form.Group>
+                    <Form.Group controlId="scenarioCase" className="row">
+                        <Form.Label column sm={2}>Scenario Case</Form.Label>
+                        <Col sm={10}>
+                            <Form.Control 
+                                type="text" 
+                                placeholder="Scenario Case" 
+                                value={scenarioCase} 
+                                onChange={handleScenarioCaseChange} 
+                            />
                         </Col>
                     </Form.Group>
                     <Form.Group controlId="chooseServer" className="row mt-3">

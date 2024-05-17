@@ -31,7 +31,7 @@ const AddServerModal = ({ show, handleClose, handleAdd }) => {
                 comment: comment,
                 statusServer: 'created'
             }));
-            const response = await fetch('http://localhost:8000/api/servers_create/', {
+            const response = await fetch(`${baseUrl}/api/servers_create/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

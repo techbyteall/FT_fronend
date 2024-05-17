@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
+import baseUrl from '../../../links';
 
 const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelectEventsSetId }) => {
     const [eventName, setEventName] = useState('');
@@ -13,7 +14,7 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelect
 
     const fetchEventSetList = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/events_set_list/');
+            const response = await fetch(`${baseUrl}/api/events_set_list/`);
             const data = await response.json();
             setEventSetList(data.data); 
         } catch (error) {
@@ -36,7 +37,7 @@ const EventModal = ({ show, handleClose, handleProceed, setEventSetId, setSelect
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8000/api/save_event/', {
+            const response = await fetch(`${baseUrl}/api/save_event/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
