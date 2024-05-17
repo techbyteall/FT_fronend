@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
 
+import baseUrl from '../../../links';
+
 const TrendModal = ({ show, handleClose, handleProceed, setTrendSetId, setSelectTrendsSetId }) => {
     const [trendName, setTrendName] = useState('');
     const [comment, setComment] = useState('');
@@ -13,9 +15,9 @@ const TrendModal = ({ show, handleClose, handleProceed, setTrendSetId, setSelect
 
     const fetchTrendSetList = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/trends_set_list/');
+            const response = await fetch(`${baseUrl}/api/trends_set_list/`);
             const data = await response.json();
-            setTrendSetList(data); // Убрал .data, так как данные уже приходят в нужном формате
+            setTrendSetList(data); 
         } catch (error) {
             console.error('Error fetching trend set list:', error);
         }
@@ -36,7 +38,7 @@ const TrendModal = ({ show, handleClose, handleProceed, setTrendSetId, setSelect
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8000/api/save_trend/', {
+            const response = await fetch(`${baseUrl}/api/save_trend/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

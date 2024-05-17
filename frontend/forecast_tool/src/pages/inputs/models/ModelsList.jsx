@@ -3,6 +3,8 @@ import { HotTable } from '@handsontable/react';
 import { registerAllModules } from 'handsontable/registry';
 import 'handsontable/dist/handsontable.full.min.css';
 
+import baseUrl from '../../../links';
+
 import axios from 'axios';
 
 registerAllModules();
@@ -12,7 +14,7 @@ const ModelsList = ({isDataUpdated, setIsDataUpdated}) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/models_set/');
+      const response = await axios.get(`${baseUrl}/api/models_set/`); //10.108.82.22
       setModelsData(response.data.data);
       setIsDataUpdated(false);
     } catch (error) {

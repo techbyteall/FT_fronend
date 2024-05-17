@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
+import baseUrl from '../../links';
 
 
 const StatusModal = ({ show, handleClose, updateScenarioList  }) => {
@@ -20,7 +21,7 @@ const StatusModal = ({ show, handleClose, updateScenarioList  }) => {
 
     const fetchModelSetList = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/models_set/');
+            const response = await fetch(`${baseUrl}/api/models_set/`);
             const data = await response.json();
             setModelSetList(data.data); 
         } catch (error) {
@@ -29,7 +30,7 @@ const StatusModal = ({ show, handleClose, updateScenarioList  }) => {
     };
     const fetchEventSetList = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/events_set_list/');
+            const response = await fetch(`${baseUrl}/api/events_set_list/`);
             const data = await response.json();
             setEventSetList(data.data); 
         } catch (error) {
@@ -38,7 +39,7 @@ const StatusModal = ({ show, handleClose, updateScenarioList  }) => {
     };
     const fetchTrendSetList = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/trends_set_list/');
+            const response = await fetch(`${baseUrl}/api/trends_set_list/`);
             const data = await response.json();
             setTrendSetList(data.data); 
         } catch (error) {
@@ -68,7 +69,7 @@ const StatusModal = ({ show, handleClose, updateScenarioList  }) => {
         e.preventDefault();
         try {
             // statusSc = 'created'
-            const response = await fetch('http://localhost:8000/api/save_scenario/', {
+            const response = await fetch(`${baseUrl}/api/save_scenario/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

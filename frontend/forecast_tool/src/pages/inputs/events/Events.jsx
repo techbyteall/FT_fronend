@@ -4,6 +4,7 @@ import EventModal from './EventModal';
 import EventsList from "./EventsList";
 import EventSetCreate from "./EventSetCreate";
 
+
 export const Events = () => {
     const [showModal, setShowModal] = useState(false);
     const [showEventsList, setShowEventsList] = useState(true);

@@ -15,7 +15,7 @@ export const Servers = () => {
     useEffect(() => {
         const fetchData = async () => {
         try {
-          const response = await fetch('http://localhost:8000/api/servers_list/');
+          const response = await fetch('http://10.117.8.121:8000/api/servers_list/'); //localhost
         
         if (!response.ok) {
           throw new Error('Failed to fetch data');
